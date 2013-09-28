@@ -16,10 +16,16 @@ BattleActionPlanner = Class{
 	
 	end,
 	keypressed = function (self, key)
-		if (key == "left") then
-			self.selectedCard = self.cards:selectCard(self.selectedCard - 1)
-		elseif (key == "right") then
-			self.selectedCard = self.cards:selectCard(self.selectedCard + 1)
+		if (key == "1") then
+			self.selectedCard = self.cards:selectCard(1)
+		elseif (key == "2") then
+			self.selectedCard = self.cards:selectCard(2)
+		elseif (key == "3") then
+			self.selectedCard = self.cards:selectCard(3)
+		elseif (key == "4") then
+			self.selectedCard = self.cards:selectCard(4)
+		elseif (key == "5") then
+			self.selectedCard = self.cards:selectCard(5)
 		end
 	end
 }
