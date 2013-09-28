@@ -4,6 +4,7 @@ math.randomseed( os.time() )
 require "Sound"
 Sound = SoundSystem()
 require "Player"
+require("lua/button")
 
 -- globals being used in different game states
 cards = nil -- representation of cards
@@ -12,7 +13,7 @@ cards = nil -- representation of cards
 require "StateMenu"
 require "StateExplore"
 require "StateBattle"
-
+require "StateInventory"
 -- cards
 require "Cards.CardsRepository"
 
