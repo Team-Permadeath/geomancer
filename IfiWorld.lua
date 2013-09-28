@@ -61,10 +61,15 @@ IfiWorld = Class{
 			end
 		end
 		-- init doors
+		local openDoors = {false, false, false}
 		local doors = {}
 		table.insert(doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
 		table.insert(doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
 		table.insert(doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
+		-- init bubbles
+		local bubbles = {
+			door = love.graphics.newImage("Bubbles/speech_bubbles-02.png")
+		}
 		-- init world
 		self.tiledMap = tiledMap
 		self.templateLayerId = self.tiledMap:getLayerId("template")
@@ -72,7 +77,9 @@ IfiWorld = Class{
 		self.pickableLayerId = self.tiledMap:getLayerId("pickable")
 		self.doorBubbleTimer = -1
 		self.monsters = monsters
+		self.openDoors = openDoors
 		self.doors = doors
+		self.bubbles = bubbles
 		self.tileSize = TILE_SIZE
 	end,
 	tileIsFree = function(self, x, y)
@@ -90,20 +97,13 @@ IfiWorld = Class{
   	setDoorBubbleTimer = function(self, sec)
   		self.doorBubbleTimer = sec
   	end,
+  	isDoorOpen = function(self, id)
+  		return self.openDoors[id]
+  	end,
 	openDoor = function(self, id)
+		self.openDoors[id] = true
 		for i, v in ipairs(self.doors[id]) do
 			self.tiledMap:setTileId(v[1], v[2], self.templateLayerId, BACKGROUND_TILE)
-		end
-	end,
-	playerIncrKilledMonster = function(self)
-		local newKilledMonsters = self.player:getKilledMonsters() + 1
-		self.player:setKilledMonster(newKilledMonsters)
-		if newKilledMonsters == 6 then
-			openDoor(1)
-		elseif newKilledMonsters == 11 then
-			openDoor(2)
-		elseif newKilledMonsters == 18 then
-			openDoor(3)
 		end
 	end,
 	update = function(self, dt)
@@ -120,6 +120,9 @@ IfiWorld = Class{
 		self.tiledMap:draw(cameraX, cameraY)
 		for i = 1, #self.monsters do
 			self.monsters[i]:draw()
+		end
+		if 0 < self.doorBubbleTimer then
+			love.graphics.draw(self.bubbles.door, cameraX - 140, cameraY - 150)
 		end
 	end
 }
