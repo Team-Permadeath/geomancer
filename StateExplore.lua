@@ -38,8 +38,8 @@ function StateExplore:keyreleased(key, unicode)
     	world:movePlayer(1, 0)
   	end
   	if key == "b" then
-		Sound:playmusic(MusicTypes.Combat)
-		Sound:playeffect(EffectTypes.Transition)
+		  Sound:playmusic(MusicTypes.Combat)
+		  Sound:playeffect(EffectTypes.Transition)
   		Gamestate.switch(StateBattle)
   	end
 end
@@ -56,8 +56,12 @@ function load_ifi()
   freeTiles[10] = true
   freeTiles[13] = true
   local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
-  -- generate monsters
   tiledMap:setLayerInvisible("monsters")
+  -- init player
+  local animSpriteImg = love.graphics.newImage("Characters/main_char_anim-05.png")
+  local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
+  local player = Player(15, 15, TILE_SIZE, animSprite, 2)
+  -- init monsters
   local monstersImg = {}
   monstersImg["skeleton_sword"] = love.graphics.newImage("Characters/monsters/monster_movement1-35.png")
   monstersImg["skeleton_m_mage"] = love.graphics.newImage("Characters/monsters/moster_movement4-06.png")
@@ -70,11 +74,11 @@ function load_ifi()
   monsterAnims["skeleton_f_mage"] = newAnimation(monstersImg["skeleton_f_mage"], TILE_SIZE, TILE_SIZE, 3, 0)
   monsterAnims["slime_small"] = newAnimation(monstersImg["slime_small"], TILE_SIZE, TILE_SIZE, 3, 0)
   monsterAnims["slime_big"] = newAnimation(monstersImg["slime_big"], TILE_SIZE, TILE_SIZE, 1, 0)
-  monsterLayerId = tiledMap:getLayerId("monsters")
+  local monstersLayerId = tiledMap:getLayerId("monsters")
   local monsters = {}
   for x = 1, tiledMap:getWidth() do
     for y = 1, tiledMap:getHeight() do
-      local tileId = tiledMap:getTileId(x, y, monsterLayerId)
+      local tileId = tiledMap:getTileId(x, y, monstersLayerId)
       if tileId == 20 then
         table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["skeleton_m_mage"]))
       elseif tileId == 21 then
@@ -88,10 +92,6 @@ function load_ifi()
       end
     end
   end
-  -- init player
-  local animSpriteImg = love.graphics.newImage("Characters/main_char_anim-05.png")
-  local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
-  local player = Player(15, 15, TILE_SIZE, animSprite, 2)
   -- init world
   world = World(tiledMap, player, monsters, TILE_SIZE)
 end

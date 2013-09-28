@@ -15,6 +15,11 @@ World = Class{
   		local newPlayerY = self.player:getY() + dy
   		if self.tiledMap:isFree(newPlayerX, newPlayerY) then
   			self.player:setPos(newPlayerX, newPlayerY)
+  			local monstersLayerId = self.tiledMap:getLayerId("monsters")
+  			local monsterId = self.tiledMap:getTileId(newPlayerX, newPlayerY, monstersLayerId)
+  			if monsterId ~= 0 then
+  				Gamestate.switch(StateBattle)
+  			end
   		end
 	end,
 	update = function(self, dt)
