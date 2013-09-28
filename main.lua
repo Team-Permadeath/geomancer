@@ -2,8 +2,8 @@ Gamestate = require "Lib.hump.gamestate"
 Camera = require "Lib.hump.camera"
 
 require "Sound"
-snd = Sound()
-snd:playmusic(MusicTypes.Menu)
+Sound = SoundSystem()
+Sound:playmusic(MusicTypes.Menu)
 require "Player"
 
 -- globals being used in different game states
@@ -21,7 +21,7 @@ function love.load()
 end
 
 function love.update(dt)
-	snd:update(dt)
+	Sound:update(dt)
 end
 
 function love.keypressed(key, unicode)

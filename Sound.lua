@@ -11,7 +11,7 @@ EffectTypes = {
 	["Transition"] = 2;
 }
 
-Sound = Class {
+SoundSystem = Class {
 	init = function(self)
 		self.playing = nil
 		self.prevplaying = nil
