@@ -1,7 +1,9 @@
+require "World"
+
 StateExplore = {}
 
 function StateExplore:init()
-
+  World:load()
 end
 
 function StateExplore:enter(previousState)
