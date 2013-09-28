@@ -2,9 +2,10 @@ require "Battlemode.BattleActionPlanner"
 
 StateBattleAction = {}
 
-function StateBattleAction:enter(previousState, battleMap, battlePlayer, battleCards, battleMovePlanner, battleActionPlanner)
+function StateBattleAction:enter(previousState, battleMap, battlePlayer, battleEnemy, battleCards, battleMovePlanner, battleActionPlanner)
     self.battleMap = battleMap
     self.battlePlayer = battlePlayer
+    self.battleEnemy = battleEnemy
     self.battleCards = battleCards
     self.battleCards:enter(battlePlayer)
     self.battleMovePlanner = battleMovePlanner
@@ -14,6 +15,7 @@ end
 function StateBattleAction:draw()
     self.battleMap:draw()
     self.battlePlayer:drawAction()
+    self.battleEnemy:draw()
     self.battleCards:drawAction(self.battleMap, self.battlePlayer)
     self.battleMovePlanner:drawAction()
 end
@@ -27,6 +29,6 @@ function StateBattleAction:keypressed(key)
         self.battleMovePlanner.y = self.battlePlayer.y
         self.battlePlayer.x = tmpX
         self.battlePlayer.y = tmpY
-        Gamestate.switch(StateBattleMove, self.battleMap, self.battlePlayer, self.battleCards, self.battleMovePlanner, self.battleActionPlanner)
+        Gamestate.switch(StateBattleMove, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner)
     end
 end
