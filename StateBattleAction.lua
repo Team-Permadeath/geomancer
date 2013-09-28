@@ -6,6 +6,7 @@ function StateBattleAction:enter(previousState, battleMap, battlePlayer, battleC
     self.battleMap = battleMap
     self.battlePlayer = battlePlayer
     self.battleCards = battleCards
+    self.battleCards:enter(battlePlayer)
     self.battleMovePlanner = battleMovePlanner
     self.battleActionPlanner = battleActionPlanner
 end
@@ -13,7 +14,7 @@ end
 function StateBattleAction:draw()
     self.battleMap:draw()
     self.battlePlayer:drawAction()
-    self.battleCards:drawAction()
+    self.battleCards:drawAction(self.battleMap, self.battlePlayer)
     self.battleMovePlanner:drawAction()
 end
 

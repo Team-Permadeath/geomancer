@@ -20,7 +20,10 @@ BattleCards = Class{
 			}
 		}
 	end,
-	drawAction = function (self)
+	enter = function (self, player)
+		self.cards[self.selected]:relocate(player, player.x, player.y)
+	end,
+	drawAction = function (self, map, player)
 	    love.graphics.setColor(150, 150, 150)
 	    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	    for i=1, numberOfCards do
@@ -31,14 +34,23 @@ BattleCards = Class{
 	    	love.graphics.setColor(150, 150, 150)
 	    	love.graphics.draw(self.cards[i].image, self.x + (i - 1) * self.dimensions.slot + self.dimensions.card.x, self.y + self.dimensions.card.y)
 	    end
+	    self.cards[self.selected]:drawAction(map, player)
 	end,
 	drawMove = function (self)
-
+		-- display cards in grey
 	end,
-	selectCard = function (self, selected)
+	selectCard = function (self, player, selected)
+		local curX = self.cards[self.selected].x
+		local curY = self.cards[self.selected].y
 		if (selected ~= 0 and selected < numberOfCards + 1) then
 			self.selected = selected
 		end
+		self.cards[self.selected]:relocate(player, curX, curY)
 		return self.selected
+	end,
+	move = function (self, player, x, y)
+		local newX = self.cards[self.selected].x + x
+		local newY = self.cards[self.selected].y + y
+		self.cards[self.selected]:move(player, newX, newY)
 	end
 }

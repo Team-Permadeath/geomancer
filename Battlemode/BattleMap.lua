@@ -64,18 +64,17 @@ BattleMap = Class{
     end,
     test = function (self, x, y)
         return self.map[y][x]
-        --if self.battleMap[y][x] == 1 then
-        --    return 1
-        --end
-        --if self.battleMap[y][x] == 2 then
-        --    return 2
-        --end
-        --return 0
     end,
     getPosition = function (self, unit)
         return {
-            x = self.grid.x + unit.x * self.grid.tileSize,
-            y = self.grid.y + unit.y * self.grid.tileSize
+            x = self:getRealX(unit.x),
+            y = self:getRealY(unit.y)
         }
+    end,
+    getRealX = function (self, x)
+        return self.grid.x + x * self.grid.tileSize
+    end,
+    getRealY = function (self, y)
+        return self.grid.y + y * self.grid.tileSize
     end
 }
