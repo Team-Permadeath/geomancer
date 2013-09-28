@@ -1,5 +1,4 @@
 Gamestate = require "Lib.hump.gamestate"
-Camera = require "Lib.hump.camera"
 
 require "Sound"
 Sound = SoundSystem()

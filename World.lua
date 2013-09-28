@@ -1,73 +1,46 @@
 Class = require "Lib.hump.class"
-require "Map"
-love.filesystem.load("Lib/TiledMapLoader.lua")()
+Camera = require "Lib.hump.camera"
+require "TiledMap"
 
 World = Class{
-	init = function(self, map, player, tileSize)
-		self.map = map
+	init = function(self, tiledMap, player, tileSize)
+		self.tiledMap = tiledMap
 		self.player = player
 		self.tileSize = tileSize
-		self.tiledMap = TiledMap_Load("Maps/ifi.tmx", 70)
-	end,
-	getPlayerActPixelPos = function(self)
-		return self.player:getActPixelPos()
+		self.camera = Camera()
 	end,
 	movePlayer = function(self, dx, dy)
 		local newPlayerX = self.player:getX() + dx
   		local newPlayerY = self.player:getY() + dy
-  		print(TiledMap_GetMapTile(newPlayerX,newPlayerY,1))
-  		if TiledMap_GetMapTile(newPlayerX,newPlayerY,1) == 1 then
+  		if self.tiledMap:isFree(newPlayerX, newPlayerY) then
   			self.player:setPos(newPlayerX, newPlayerY)
   		end
 	end,
 	update = function(self, dt)
-		self.map:update(dt)
+		self.tiledMap:update(dt)
 		self.player:update(dt)
+		-- update camera
+		local playerActPixelX, playerActPixelY = self.player:getActPixelPos()
+		-- camera should be focused on the middle of the player character
+		playerActPixelX = playerActPixelX + self.tileSize / 2
+		playerActPixelY = playerActPixelY + self.tileSize / 2
+		self.camera:lookAt(playerActPixelX, playerActPixelY)
 	end,
 	draw = function(self)
-		--self.map:draw()
-		local playerActPixelX, playerActPixelY = world:getPlayerActPixelPos()
-		-- camera should be focused on the middle of the player character
-		playerActPixelX = playerActPixelX + TILE_SIZE / 2
-		playerActPixelY = playerActPixelY + TILE_SIZE / 2
-		TiledMap_DrawNearCam(playerActPixelX, playerActPixelY)
-		-- DEBUG
-		local screen_w = love.graphics.getWidth()
-	    local screen_h = love.graphics.getHeight()
-	    local kTileSize = 70
-	    local camx = playerActPixelX
-	    local camy = playerActPixelY
-	    local minx,maxx = math.floor((camx-screen_w/2)/kTileSize),math.ceil((camx+screen_w/2)/kTileSize)
-	    local miny,maxy = math.floor((camy-screen_h/2)/kTileSize),math.ceil((camy+screen_h/2)/kTileSize)
-	    love.graphics.print(minx..", "..maxx..", "..miny..", "..maxy..":"..camx..", "..camy, camx + 50, camy)
+		self.camera:attach()
+		self.tiledMap:draw(self.camera:pos())
 		self.player:draw()
+		self.camera:detach()
 	end
 }
 
 function World:load()
-	local tileIds = {
-        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-        { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 }
-    }
-    local tileSprites = {}
-    tileSprites[0] = love.graphics.newImage("Images/background_tile.png")
-    tileSprites[1] = love.graphics.newImage("Images/stone_tile.png")
-	local map = Map(#tileIds[1], #tileIds, TILE_SIZE, tileIds, tileSprites)
+	-- init tiled map
+	local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE)
 	-- init player
 	local animSpriteImg = love.graphics.newImage("Images/main_char_anim.png")
-	local animSprite = newAnimation(animSpriteImg, 70, 70, 0.15, 0)
+	local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
 	local player = Player(15, 15, TILE_SIZE, animSprite, 2)
 	-- init world
-	world = World(map, player, TILE_SIZE)
+	world = World(tiledMap, player, TILE_SIZE)
 end

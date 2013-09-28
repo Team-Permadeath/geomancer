@@ -1,6 +1,5 @@
 require "World"
 
-camera = Camera() -- camera
 world = nil -- representation of whole game's world
 
 StateExplore = {}
@@ -15,18 +14,10 @@ end
 
 function StateExplore:update(dt)
   world:update(dt)
-    -- update camera
-	local playerActPixelX, playerActPixelY = world:getPlayerActPixelPos()
-	-- camera should be focused on the middle of the player character
-	playerActPixelX = playerActPixelX + TILE_SIZE / 2
-	playerActPixelY = playerActPixelY + TILE_SIZE / 2
-	camera:lookAt(playerActPixelX, playerActPixelY)
 end
 
 function StateExplore:draw()
-	camera:attach()
 	world:draw()
-	camera:detach()
 end
 
 function StateExplore:keyreleased(key, unicode)
