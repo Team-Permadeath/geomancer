@@ -27,8 +27,8 @@ local battleCards
 
 
 function StateBattle:enter(previousState)
-	Sound:playeffect(EffectTypes.Transition)
-	Sound:playmusic(MusicTypes.Combat)
+	Sound:playEffect(EffectTypes.Transition)
+	Sound:playMusic(MusicTypes.Combat)
 
     battleMap = BattleMap(gridStartX, gridStartY, gridFactor)
     battlePlayer = BattlePlayer(battleMap, playerStartX, playerStartY)
