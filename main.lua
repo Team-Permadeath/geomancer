@@ -1,4 +1,5 @@
 Gamestate = require "Lib.hump.gamestate"
+math.randomseed( os.time() )
 
 require "Sound"
 Sound = SoundSystem()
