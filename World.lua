@@ -3,9 +3,10 @@ Camera = require "Lib.hump.camera"
 require "TiledMap"
 
 World = Class{
-	init = function(self, tiledMap, player, tileSize)
+	init = function(self, tiledMap, player, monsters, tileSize)
 		self.tiledMap = tiledMap
 		self.player = player
+		self.monsters = monsters
 		self.tileSize = tileSize
 		self.camera = Camera()
 	end,
@@ -19,6 +20,9 @@ World = Class{
 	update = function(self, dt)
 		self.tiledMap:update(dt)
 		self.player:update(dt)
+		for i = 1, #self.monsters do
+			self.monsters[i]:update(dt)
+		end
 		-- update camera
 		local playerActPixelX, playerActPixelY = self.player:getActPixelPos()
 		-- camera should be focused on the middle of the player character
@@ -29,6 +33,9 @@ World = Class{
 	draw = function(self)
 		self.camera:attach()
 		self.tiledMap:draw(self.camera:pos())
+		for i = 1, #self.monsters do
+			self.monsters[i]:draw()
+		end
 		self.player:draw()
 		self.camera:detach()
 	end

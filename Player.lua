@@ -47,7 +47,6 @@ Player = Class{
     end
   end,
   draw = function(self)
-    --love.graphics.draw(self.sprite, self.actPixelX, self.actPixelY)
     self.animSprite:draw(self.actPixelX, self.actPixelY)
   end,
 }

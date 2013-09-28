@@ -1,4 +1,5 @@
 require "World"
+require "Monster"
 
 local world
 local fogImg
@@ -6,7 +7,7 @@ local fogImg
 StateExplore = {}
 
 function StateExplore:init()
-  load_world()
+  load_ifi()
   fogImg = love.graphics.newImage("Images/fog.png")
 end
 
@@ -20,7 +21,7 @@ end
 
 function StateExplore:draw()
 	world:draw()
-  love.graphics.draw(fogImg, 0, 0)
+  --love.graphics.draw(fogImg, 0, 0)
 end
 
 function StateExplore:keyreleased(key, unicode)
@@ -43,18 +44,54 @@ function StateExplore:keyreleased(key, unicode)
   	end
 end
 
-function load_world()
+function load_ifi()
   -- init tiled map
+  -- set free tiles where player can walk into
   freeTiles = {}
-  freeTiles[1] = {}
-  freeTiles[1][0] = false
-  freeTiles[1][1] = true
-  freeTiles[1][2] = false
+  for i = 0, 27 do
+    freeTiles[i] = false
+  end
+  freeTiles[0] = true
+  freeTiles[1] = true
+  freeTiles[10] = true
+  freeTiles[13] = true
   local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
+  -- generate monsters
+  tiledMap:setLayerInvisible("monsters")
+  local monstersImg = {}
+  monstersImg["skeleton_sword"] = love.graphics.newImage("Characters/monsters/monster_movement1-35.png")
+  monstersImg["skeleton_m_mage"] = love.graphics.newImage("Characters/monsters/moster_movement4-06.png")
+  monstersImg["skeleton_f_mage"] = love.graphics.newImage("Characters/monsters/monster_movement5-06.png")
+  monstersImg["slime_small"] = love.graphics.newImage("Characters/monsters/monster_movement3-07.png")
+  monstersImg["slime_big"] = love.graphics.newImage("Characters/monsters/monster_movement2-34.png")
+  local monsterAnims = {}
+  monsterAnims["skeleton_sword"] = newAnimation(monstersImg["skeleton_sword"], TILE_SIZE, TILE_SIZE, 2, 0)
+  monsterAnims["skeleton_m_mage"] = newAnimation(monstersImg["skeleton_m_mage"], TILE_SIZE, TILE_SIZE, 3, 0)
+  monsterAnims["skeleton_f_mage"] = newAnimation(monstersImg["skeleton_f_mage"], TILE_SIZE, TILE_SIZE, 3, 0)
+  monsterAnims["slime_small"] = newAnimation(monstersImg["slime_small"], TILE_SIZE, TILE_SIZE, 3, 0)
+  monsterAnims["slime_big"] = newAnimation(monstersImg["slime_big"], TILE_SIZE, TILE_SIZE, 1, 0)
+  monsterLayerId = tiledMap:getLayerId("monsters")
+  local monsters = {}
+  for x = 1, tiledMap:getWidth() do
+    for y = 1, tiledMap:getHeight() do
+      local tileId = tiledMap:getTileId(x, y, monsterLayerId)
+      if tileId == 20 then
+        table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["skeleton_m_mage"]))
+      elseif tileId == 21 then
+        table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["skeleton_f_mage"]))
+      elseif tileId == 22 then
+        table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["skeleton_sword"]))
+      elseif tileId == 23 then
+        table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["slime_big"]))
+      elseif tileId == 24 then
+        table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["slime_small"]))
+      end
+    end
+  end
   -- init player
-  local animSpriteImg = love.graphics.newImage("Images/main_char_anim.png")
+  local animSpriteImg = love.graphics.newImage("Characters/main_char_anim-05.png")
   local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
   local player = Player(15, 15, TILE_SIZE, animSprite, 2)
   -- init world
-  world = World(tiledMap, player, TILE_SIZE)
+  world = World(tiledMap, player, monsters, TILE_SIZE)
 end
