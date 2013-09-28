@@ -27,13 +27,13 @@ Sound = Class {
 		for k, file in ipairs(love.filesystem.enumerate(dir)) do
 			for key, value in pairs(MusicTypes) do
 				if (string.match(file, key)) then
-					self.music[value][1] = love.audio.newSource(dir .. file)
+					self.music[value][1] = love.audio.newSource(dir .. file, "stream")
 				end
 			end
 
 			for key, value in pairs(EffectTypes) do
 				if (string.match(file, key)) then
-					self.effects[value][1] = love.audio.newSource(dir .. file)
+					self.effects[value][1] = love.audio.newSource(dir .. file, "static")
 				end
 			end
 		end
