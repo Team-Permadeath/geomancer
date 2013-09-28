@@ -8,6 +8,7 @@ MusicTypes = {
 
 EffectTypes = {
 	["Sword"] = 1;
+	["Transition"] = 2;
 }
 
 Sound = Class {
