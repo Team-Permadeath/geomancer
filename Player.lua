@@ -41,6 +41,12 @@ Player = Class{
   getActPixelPos = function(self)
     return self.actPixelX, self.actPixelY
   end,
+  getCollectedNuts = function(self)
+    return self.collectedNuts
+  end,
+  setCollectedNuts = function(self, n)
+    self.collectedNuts = n
+  end,
   getKilledMonsters = function(self)
     return self.killedMonsters
   end,
