@@ -1,19 +1,18 @@
 Class = require "Lib.hump.class"
-Camera = require "Lib.hump.camera"
 require "TiledMap"
 
-local EMPTY_TILE = 0
-local BACKGROUND_TILE = 1
-local STONE_TILE = 2
-local METAL_DOOR = 3
-local NUT_TILE = 6
-local WHITEBOARD = 10
-local WHITEBOARD2 = 13
-local SKELETON_M_MAGE = 20
-local SKELETON_F_MAGE = 21
-local SKELETON_SWORD = 22
-local SLIME_BIG = 23
-local SLIME_SMALL = 24
+EMPTY_TILE = 0
+BACKGROUND_TILE = 1
+STONE_TILE = 2
+METAL_DOOR = 3
+NUT_TILE = 6
+WHITEBOARD = 10
+WHITEBOARD2 = 13
+SKELETON_M_MAGE = 20
+SKELETON_F_MAGE = 21
+SKELETON_SWORD = 22
+SLIME_BIG = 23
+SLIME_SMALL = 24
 
 IfiWorld = Class{
 	init = function(self)
@@ -30,10 +29,6 @@ IfiWorld = Class{
 		freeTiles[WHITEBOARD2] = true
 		local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
 		tiledMap:setLayerInvisible("monsters")
-		-- init player
-		local animSpriteImg = love.graphics.newImage("Characters/main_char_anim-05.png")
-		local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
-		local player = Player(15, 15, TILE_SIZE, animSprite, 2)
 		-- init monsters
 		local monstersImg = {}
 		monstersImg[SKELETON_SWORD] = love.graphics.newImage("Characters/monsters/monster_movement1-35.png")
@@ -72,23 +67,32 @@ IfiWorld = Class{
 		table.insert(doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init world
 		self.tiledMap = tiledMap
-		self.player = player
+		self.templateLayerId = self.tiledMap:getLayerId("template")
+		self.monstersLayerId = self.tiledMap:getLayerId("monsters")
+		self.pickableLayerId = self.tiledMap:getLayerId("pickable")
+		self.doorBubbleTimer = -1
 		self.monsters = monsters
 		self.doors = doors
 		self.tileSize = TILE_SIZE
-		self.camera = Camera()
 	end,
-	--getPlayerAmountCards = function(self)
-	--	return self.player:getAmountCards()
-	--end,
-
-	getPlayerCards = function(self)
-		return self.player:getCards()
+	tileIsFree = function(self, x, y)
+		return self.tiledMap:isFree(x, y)
 	end,
+	getTileId = function(self, x, y, z)
+    	return self.tiledMap:getTileId(x, y, z)
+  	end,
+  	setTileId = function(self, x, y, z, v)
+    	self.tiledMap:setTileId(x, y, z, v)
+  	end,
+  	getLayerId = function(self, layerName)
+  		return self.tiledMap:getLayerId(layerName)
+  	end,
+  	setDoorBubbleTimer = function(self, sec)
+  		self.doorBubbleTimer = sec
+  	end,
 	openDoor = function(self, id)
-		local templateLayerId = self.tiledMap:getLayerId("template")
 		for i, v in ipairs(self.doors[id]) do
-			self.tiledMap:setTileId(v[1], v[2], templateLayerId, BACKGROUND_TILE)
+			self.tiledMap:setTileId(v[1], v[2], self.templateLayerId, BACKGROUND_TILE)
 		end
 	end,
 	playerIncrKilledMonster = function(self)
@@ -102,47 +106,20 @@ IfiWorld = Class{
 			openDoor(3)
 		end
 	end,
-	movePlayer = function(self, dx, dy)
-		local newPlayerX = self.player:getX() + dx
-  		local newPlayerY = self.player:getY() + dy
-  		if self.tiledMap:isFree(newPlayerX, newPlayerY) then
-  			self.player:setPos(newPlayerX, newPlayerY)
-  			-- check for battle
-  			local monstersLayerId = self.tiledMap:getLayerId("monsters")
-  			local monsterId = self.tiledMap:getTileId(newPlayerX, newPlayerY, monstersLayerId)
-  			if monsterId ~= 0 then
-  				Gamestate.switch(StateBattle)
-  			end
-  			-- check for nut
-  			local pickableLayerId = self.tiledMap:getLayerId("pickable")
-  			local pickableId = self.tiledMap:getTileId(newPlayerX, newPlayerY, pickableLayerId)
-  			if pickableId == NUT_TILE then
-  				self.tiledMap:setTileId(newPlayerX, newPlayerY, pickableLayerId, EMPTY_TILE)
-  				local newCollectedNuts = self.player:getCollectedNuts() + 1
-  				self.player:setCollectedNuts(newCollectedNuts)
-  			end
-  		end
-	end,
 	update = function(self, dt)
 		self.tiledMap:update(dt)
-		self.player:update(dt)
 		for i = 1, #self.monsters do
 			self.monsters[i]:update(dt)
 		end
-		-- update camera
-		local playerActPixelX, playerActPixelY = self.player:getActPixelPos()
-		-- camera should be focused on the middle of the player character
-		playerActPixelX = playerActPixelX + self.tileSize / 2
-		playerActPixelY = playerActPixelY + self.tileSize / 2
-		self.camera:lookAt(playerActPixelX, playerActPixelY)
+		-- update door bubble timer
+		if 0 < self.doorBubbleTimer then
+			self.doorBubbleTimer = self.doorBubbleTimer - dt
+		end
 	end,
-	draw = function(self)
-		self.camera:attach()
-		self.tiledMap:draw(self.camera:pos())
+	draw = function(self, cameraX, cameraY)
+		self.tiledMap:draw(cameraX, cameraY)
 		for i = 1, #self.monsters do
 			self.monsters[i]:draw()
 		end
-		self.player:draw()
-		self.camera:detach()
 	end
 }
