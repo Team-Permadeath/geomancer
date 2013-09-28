@@ -17,15 +17,27 @@ BattleMovePlanner = Class{
 	    love.graphics.setColor(255, 255, 0)
 	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
 	end,
-	move = function (self, x, y)
-		local testX = self.x + x
-		local testY = self.y + y
-	    if self.map:test(testX, testY) ~= 1 and isValidMove(self.player, testX, testY) then
-	    	self.x = testX
-	        self.y = testY
-	    end	
+	keypressed = function (self, key)
+	    if key == "up" then
+	        move(self, 0, -1)
+	    elseif key == "down" then
+	    	move(self, 0, 1)
+	    elseif key == "left" then
+	    	move(self, -1, 0)
+	    elseif key == "right" then
+	    	move(self, 1, 0)
+	    end
 	end
 }
+
+function move(planner, x, y)
+	local testX = planner.x + x
+	local testY = planner.y + y
+    if planner.map:test(testX, testY) ~= 1 and isValidMove(planner.player, testX, testY) then
+    	planner.x = testX
+        planner.y = testY
+    end	
+end
 
 function isValidMove(player, x, y)
 	return math.abs(x - player.x) < 2 and math.abs(y - player.y) < 2

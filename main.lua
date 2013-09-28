@@ -8,15 +8,20 @@ require "Player"
 -- globals being used in different game states
 camera = Camera() -- camera
 world = nil -- representation of whole game's world
+cards = nil -- representation of cards
 
 -- game states
 require "StateMenu"
 require "StateExplore"
 require "StateBattle"
 
+-- cards
+require "Cards.CardsRepository"
+
 function love.load()
     Gamestate.registerEvents()
     Gamestate.switch(StateMenu)
+    cards = CardsRepository(5, 2, 2)
 end
 
 function love.update(dt)
