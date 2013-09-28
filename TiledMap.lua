@@ -22,6 +22,9 @@ TiledMap = Class{
   getTileId = function(self, x, y, z)
     return TiledMap_GetMapTile(x, y, z)
   end,
+  setTileId = function(self, x, y, z, v)
+    TiledMap_SetMapTile(x, y, z, v)
+  end,
   -- checks if tile is free to walk into
   isFree = function(self, x, y)
       for z = 1, #gMapLayers do

@@ -2,18 +2,30 @@ Class = require "Lib.hump.class"
 Camera = require "Lib.hump.camera"
 require "TiledMap"
 
+local EMPTY_TILE = 0
+local BACKGROUND_TILE = 1
+local STONE_TILE = 2
+local METAL_DOOR = 3
+local WHITEBOARD = 10
+local WHITEBOARD2 = 13
+local SKELETON_M_MAGE = 20
+local SKELETON_F_MAGE = 21
+local SKELETON_SWORD = 22
+local SLIME_BIG = 23
+local SLIME_SMALL = 24
+
 IfiWorld = Class{
 	init = function(self)
 		-- init tiled map
 		-- set free tiles where player can walk into
 		freeTiles = {}
 		for i = 0, 27 do
-		freeTiles[i] = false
+			freeTiles[i] = false
 		end
-		freeTiles[0] = true
-		freeTiles[1] = true
-		freeTiles[10] = true
-		freeTiles[13] = true
+		freeTiles[EMPTY_TILE] = true
+		freeTiles[BACKGROUND_TILE] = true
+		freeTiles[WHITEBOARD] = true
+		freeTiles[WHITEBOARD2] = true
 		local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
 		tiledMap:setLayerInvisible("monsters")
 		-- init player
@@ -22,42 +34,52 @@ IfiWorld = Class{
 		local player = Player(15, 15, TILE_SIZE, animSprite, 2)
 		-- init monsters
 		local monstersImg = {}
-		monstersImg["skeleton_sword"] = love.graphics.newImage("Characters/monsters/monster_movement1-35.png")
-		monstersImg["skeleton_m_mage"] = love.graphics.newImage("Characters/monsters/moster_movement4-06.png")
-		monstersImg["skeleton_f_mage"] = love.graphics.newImage("Characters/monsters/monster_movement5-06.png")
-		monstersImg["slime_small"] = love.graphics.newImage("Characters/monsters/monster_movement3-07.png")
-		monstersImg["slime_big"] = love.graphics.newImage("Characters/monsters/monster_movement2-34.png")
+		monstersImg[SKELETON_SWORD] = love.graphics.newImage("Characters/monsters/monster_movement1-35.png")
+		monstersImg[SKELETON_M_MAGE] = love.graphics.newImage("Characters/monsters/moster_movement4-06.png")
+		monstersImg[SKELETON_F_MAGE] = love.graphics.newImage("Characters/monsters/monster_movement5-06.png")
+		monstersImg[SLIME_SMALL] = love.graphics.newImage("Characters/monsters/monster_movement3-07.png")
+		monstersImg[SLIME_BIG] = love.graphics.newImage("Characters/monsters/monster_movement2-34.png")
 		local monsterAnims = {}
-		monsterAnims["skeleton_sword"] = newAnimation(monstersImg["skeleton_sword"], TILE_SIZE, TILE_SIZE, 2, 0)
-		monsterAnims["skeleton_m_mage"] = newAnimation(monstersImg["skeleton_m_mage"], TILE_SIZE, TILE_SIZE, 3, 0)
-		monsterAnims["skeleton_f_mage"] = newAnimation(monstersImg["skeleton_f_mage"], TILE_SIZE, TILE_SIZE, 3, 0)
-		monsterAnims["slime_small"] = newAnimation(monstersImg["slime_small"], TILE_SIZE, TILE_SIZE, 3, 0)
-		monsterAnims["slime_big"] = newAnimation(monstersImg["slime_big"], TILE_SIZE, TILE_SIZE, 1, 0)
+		monsterAnims[SKELETON_SWORD] = newAnimation(monstersImg[SKELETON_SWORD], TILE_SIZE, TILE_SIZE, 2, 0)
+		monsterAnims[SKELETON_M_MAGE] = newAnimation(monstersImg[SKELETON_M_MAGE], TILE_SIZE, TILE_SIZE, 3, 0)
+		monsterAnims[SKELETON_F_MAGE] = newAnimation(monstersImg[SKELETON_F_MAGE], TILE_SIZE, TILE_SIZE, 3, 0)
+		monsterAnims[SLIME_SMALL] = newAnimation(monstersImg[SLIME_SMALL], TILE_SIZE, TILE_SIZE, 3, 0)
+		monsterAnims[SLIME_BIG] = newAnimation(monstersImg[SLIME_BIG], TILE_SIZE, TILE_SIZE, 1, 0)
 		local monstersLayerId = tiledMap:getLayerId("monsters")
 		local monsters = {}
 		for x = 1, tiledMap:getWidth() do
-		for y = 1, tiledMap:getHeight() do
-		  local tileId = tiledMap:getTileId(x, y, monstersLayerId)
-		  if tileId == 20 then
-		    table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["skeleton_m_mage"]))
-		  elseif tileId == 21 then
-		    table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["skeleton_f_mage"]))
-		  elseif tileId == 22 then
-		    table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["skeleton_sword"]))
-		  elseif tileId == 23 then
-		    table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["slime_big"]))
-		  elseif tileId == 24 then
-		    table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims["slime_small"]))
-		  end
+			for y = 1, tiledMap:getHeight() do
+				local tileId = tiledMap:getTileId(x, y, monstersLayerId)
+				if tileId == SKELETON_M_MAGE then
+					table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims[SKELETON_M_MAGE]))
+				elseif tileId == SKELETON_F_MAGE then
+					table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims[SKELETON_F_MAGE]))
+				elseif tileId == SKELETON_SWORD then
+					table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims[SKELETON_SWORD]))
+				elseif tileId == SLIME_BIG then
+					table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims[SLIME_BIG]))
+				elseif tileId == SLIME_SMALL then
+					table.insert(monsters, Monster(x, y, TILE_SIZE, monsterAnims[SLIME_SMALL]))
+				end
+			end
 		end
-		end
+		-- init doors
+		doors = {}
+		table.insert(doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
+		table.insert(doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
+		table.insert(doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init world
-		--world = World(tiledMap, player, monsters, TILE_SIZE)
 		self.tiledMap = tiledMap
 		self.player = player
 		self.monsters = monsters
 		self.tileSize = TILE_SIZE
 		self.camera = Camera()
+	end,
+	openDoor = function(self, id)
+		local templateLayerId = self.tiledMap:getLayerId("template")
+		for i, v in ipairs(doors[id]) do
+			self.tiledMap:setTileId(v[1], v[2], templateLayerId, BACKGROUND_TILE)
+		end
 	end,
 	movePlayer = function(self, dx, dy)
 		local newPlayerX = self.player:getX() + dx
