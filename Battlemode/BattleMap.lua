@@ -4,7 +4,7 @@ local gridSize = TILE_SIZE
 
 BattleMap = Class{
 	init = function(self, startX, startY, gridFactor)
-		self.battleMap = {
+		self.map = {
 	        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
 	        { 1, 2, 0, 0, 0, 0, 0, 0, 0, 1 },
 	        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -22,54 +22,60 @@ BattleMap = Class{
 	    	y = startY - gridTileSize,
 	    	tileSize = gridTileSize
 		}
-	end
+	end,
+    draw = function (self)
+        local gridPosX
+        local gridPosY
+        for y=1, #self.map do
+            for x=1, #self.map[y] do
+                gridPosX = self.grid.x + x * self.grid.tileSize
+                gridPosY = self.grid.y + y * self.grid.tileSize
+                if self.map[y][x]== 0 then
+                    love.graphics.setColor(62, 62, 62)
+                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
+                    love.graphics.setColor(255, 255, 255)
+                elseif self.map[y][x] == 1 then
+                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
+                elseif self.map[y][x]== 2 then
+                    love.graphics.setColor(255, 0, 0)
+                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
+                    love.graphics.setColor(255, 255, 255)
+                    
+                end
+            end
+        end
+        for y=1, #self.map do
+            for x=1, #self.map[y] do
+                gridPosX = self.grid.x + x * self.grid.tileSize
+                gridPosY = self.grid.y + y * self.grid.tileSize
+                if self.map[y][x]== 0 then
+                    love.graphics.setColor(62, 62, 62)
+                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
+                    love.graphics.setColor(255, 255, 255)
+                elseif self.map[y][x] == 1 then
+                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
+                elseif self.map[y][x]== 2 then
+                    love.graphics.setColor(255, 0, 0)
+                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
+                    love.graphics.setColor(255, 255, 255)   
+                end
+            end
+        end
+    end,
+    test = function (self, x, y)
+        return self.map[y][x]
+        --if self.battleMap[y][x] == 1 then
+        --    return 1
+        --end
+        --if self.battleMap[y][x] == 2 then
+        --    return 2
+        --end
+        --return 0
+    end,
+    getPosition = function (self, unit)
+        return {
+            x = self.grid.x + unit.x * self.grid.tileSize,
+            y = self.grid.y + unit.y * self.grid.tileSize
+        }
+    end
 }
-function BattleMap:draw()
-	local gridPosX
-	local gridPosY
-    for y=1, #self.battleMap do
-        for x=1, #self.battleMap[y] do
-            gridPosX = self.grid.x + x * self.grid.tileSize
-            gridPosY = self.grid.y + y * self.grid.tileSize
-            if self.battleMap[y][x]== 0 then
-                love.graphics.setColor(62, 62, 62)
-                love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                love.graphics.setColor(255, 255, 255)
-            elseif self.battleMap[y][x] == 1 then
-                love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-            elseif self.battleMap[y][x]== 2 then
-                love.graphics.setColor(255, 0, 0)
-                love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                love.graphics.setColor(255, 255, 255)
-                
-            end
-        end
-    end
-    for y=1, #self.battleMap do
-        for x=1, #self.battleMap[y] do
-            gridPosX = self.grid.x + x * self.grid.tileSize
-            gridPosY = self.grid.y + y * self.grid.tileSize
-            if self.battleMap[y][x]== 0 then
-                love.graphics.setColor(62, 62, 62)
-                love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                love.graphics.setColor(255, 255, 255)
-            elseif self.battleMap[y][x] == 1 then
-                love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-            elseif self.battleMap[y][x]== 2 then
-                love.graphics.setColor(255, 0, 0)
-                love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                love.graphics.setColor(255, 255, 255)   
-            end
-        end
-    end
-end
-function BattleMap:test(x, y)
-    return self.battleMap[y][x]
-    --if self.battleMap[y][x] == 1 then
-    --    return 1
-    --end
-	--if self.battleMap[y][x] == 2 then
-    --    return 2
-    --end
-    --return 0
-end
