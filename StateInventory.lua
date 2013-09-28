@@ -1,9 +1,13 @@
 
 StateInventory = {}
-function StateInventory:init()	
+function StateInventory:init()
+--self.cardsS=
+
+
 end
 
 function StateInventory:enter()
+
 	
 end
 	
@@ -20,7 +24,25 @@ function StateInventory.update(dt)
 end
 
 function StateInventory:draw()
-	
+		--nrcards=ifiWorld:getPlayerAmountCards()
+		cards=ifiWorld:getPlayerCards()
+		if cards == nil then
+			print("nil")
+			else
+				print("not nil")
+		end
+		u=0
+		for i, v in ipairs(cards) do
+     			love.graphics.draw(v.image, 300+ 110*(i%7), 300+(u*200))
+     			if i%7==7 then u=u+1 end
+    		end
+		--for n,b in cards do
+		--	print(n)
+		--end
+
+	--for n,b in cards do
+	--
+	--end
 	for n,b in pairs(state.button) do
 		b:draw()
 	end

@@ -1,14 +1,16 @@
 Class = require "Lib.hump.class"
 
 BattleEnemy = Class{
-	init = function(self, enemy, battleMap, x, y)
+	init = function(self, enemy, player, map, startX, startY)
 		self.enemy = enemy
-		self.battleMap = battleMap
-		self.x = x * TILE_SIZE
-		self.y = y * TILE_SIZE
+		self.player = player
+		self.map = map
+		self.x = startX
+		self.y = startY
 	end,
 	draw = function (self)
-		self.x = self.x + 1
-		self.y = self.y + 1
+		local pos = self.map:getPosition(self)
+	    love.graphics.setColor(0, 255, 0)
+	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
 	end
 }
