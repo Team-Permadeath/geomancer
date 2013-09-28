@@ -13,6 +13,10 @@ MusicTypes = {
 EffectTypes = {
 	["Sword"] = 1;
 	["Transition"] = 2;
+	["FireSpell"] = 3;
+	["WaterSpell"] = 4;
+	["Error"] = 4;
+	["Hit"] = 5;
 }
 
 SoundSystem = Class {
