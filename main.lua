@@ -18,9 +18,9 @@ require "StateInventory"
 require "Cards.CardsRepository"
 
 function love.load()
-    Gamestate.registerEvents()
-    Gamestate.switch(StateMenu)
-    cards = CardsRepository(5, 2, 2)
+	Gamestate.registerEvents()
+	Gamestate.switch(StateMenu)
+	cards = CardsRepository(5, 2, 2)
 end
 
 function love.update(dt)
