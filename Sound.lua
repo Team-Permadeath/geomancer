@@ -15,8 +15,8 @@ EffectTypes = {
 	["Transition"] = 2;
 	["FireSpell"] = 3;
 	["WaterSpell"] = 4;
-	["Error"] = 4;
-	["Hit"] = 5;
+	["Error"] = 5;
+	["Hit"] = 6;
 }
 
 SoundSystem = Class {
@@ -27,15 +27,15 @@ SoundSystem = Class {
 		self.music = {}
 		self.volume = 1
 		for key, value in pairs(MusicTypes) do
-			self.music[value] = {}
-			self.music[value][0] = 0
-			self.music[value][-1] = 0
+			self.music[value] = {} -- Songs
+			self.music[value][0] = 0 -- Number of songs
+			self.music[value][-1] = 0 -- Currently chosen song, zero is none
 		end
 
 		self.effects = {}
 		for key, value in pairs(EffectTypes) do
-			self.effects[value] = {}
-			self.effects[value][0] = 0
+			self.effects[value] = {} -- Effects
+			self.effects[value][0] = 0 -- Number of effects
 		end
 
 		local dir = "Sounds/"
