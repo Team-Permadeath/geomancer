@@ -42,9 +42,6 @@ function StateMenu:create()
 	return temp
 end
 
-function StateMenu:enter()
-end
-
 function StateMenu.update(dt)
 		
 	for n,b in pairs(state.button) do
@@ -53,15 +50,14 @@ function StateMenu.update(dt)
 end
 
 function StateMenu:draw()
-	love.graphics.setColor(unpack(color["text"])) 
 	--love.graphics.draw(drawable, x, y, r, sx, sy, ox, oy, kx, ky)
+	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(graphics["background"], 0, 0, 0, 3, 3, 100, 75)
 	love.graphics.draw(graphics["logo"], 400, 225, 0, 1, 1, 100, 75)
 	
 	for n,b in pairs(state.button) do
 		b:draw()
 	end
-	---love.graphics.setColor(255, 255, 255)
 end
 
 function StateMenu:keyreleased(key, unicode)
