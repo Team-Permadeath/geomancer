@@ -1,7 +1,8 @@
 require "IfiWorld"
 require "Monster"
 
-local ifiWorld
+--local ifiWorld
+
 local fogImg
 
 StateExplore = {}

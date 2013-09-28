@@ -6,6 +6,7 @@ local EMPTY_TILE = 0
 local BACKGROUND_TILE = 1
 local STONE_TILE = 2
 local METAL_DOOR = 3
+local NUT_TILE = 6
 local WHITEBOARD = 10
 local WHITEBOARD2 = 13
 local SKELETON_M_MAGE = 20
@@ -24,6 +25,7 @@ IfiWorld = Class{
 		end
 		freeTiles[EMPTY_TILE] = true
 		freeTiles[BACKGROUND_TILE] = true
+		freeTiles[NUT_TILE] = true
 		freeTiles[WHITEBOARD] = true
 		freeTiles[WHITEBOARD2] = true
 		local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
@@ -76,6 +78,13 @@ IfiWorld = Class{
 		self.tileSize = TILE_SIZE
 		self.camera = Camera()
 	end,
+	--getPlayerAmountCards = function(self)
+	--	return self.player:getAmountCards()
+	--end,
+
+	getPlayerCards = function(self)
+		return self.player:getCards()
+	end,
 	openDoor = function(self, id)
 		local templateLayerId = self.tiledMap:getLayerId("template")
 		for i, v in ipairs(self.doors[id]) do
@@ -98,10 +107,19 @@ IfiWorld = Class{
   		local newPlayerY = self.player:getY() + dy
   		if self.tiledMap:isFree(newPlayerX, newPlayerY) then
   			self.player:setPos(newPlayerX, newPlayerY)
+  			-- check for battle
   			local monstersLayerId = self.tiledMap:getLayerId("monsters")
   			local monsterId = self.tiledMap:getTileId(newPlayerX, newPlayerY, monstersLayerId)
   			if monsterId ~= 0 then
   				Gamestate.switch(StateBattle)
+  			end
+  			-- check for nut
+  			local pickableLayerId = self.tiledMap:getLayerId("pickable")
+  			local pickableId = self.tiledMap:getTileId(newPlayerX, newPlayerY, pickableLayerId)
+  			if pickableId == NUT_TILE then
+  				self.tiledMap:setTileId(newPlayerX, newPlayerY, pickableLayerId, EMPTY_TILE)
+  				local newCollectedNuts = self.player:getCollectedNuts() + 1
+  				self.player:setCollectedNuts(newCollectedNuts)
   			end
   		end
 	end,
