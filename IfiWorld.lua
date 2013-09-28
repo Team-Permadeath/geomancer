@@ -76,6 +76,13 @@ IfiWorld = Class{
 		self.tileSize = TILE_SIZE
 		self.camera = Camera()
 	end,
+	--getPlayerAmountCards = function(self)
+	--	return self.player:getAmountCards()
+	--end,
+
+	getPlayerCards = function(self)
+		return self.player:getCards()
+	end,
 	openDoor = function(self, id)
 		local templateLayerId = self.tiledMap:getLayerId("template")
 		for i, v in ipairs(self.doors[id]) do
