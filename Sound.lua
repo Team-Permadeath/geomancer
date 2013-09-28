@@ -57,7 +57,7 @@ SoundSystem = Class {
 			end
 		end
 	end,
-	playmusic = function(self, mtype)
+	playMusic = function(self, mtype)
 		if (self.prevplayingtype == mtype
 			or not SoundEnabled
 			or not MusicEnabled
@@ -76,7 +76,7 @@ SoundSystem = Class {
 		self.volume = 0
 	end,
 
-	playeffect = function(self, mtype)
+	playEffect = function(self, mtype)
 		if (not SoundEnabled or not EffectsEnabled) then
 			return
 		end

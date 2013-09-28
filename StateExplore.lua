@@ -12,7 +12,9 @@ function StateExplore:init()
 end
 
 function StateExplore:enter(previousState)
-  love.graphics.setBackgroundColor(100, 100, 100)
+	Sound:playMusic(MusicTypes.Exploration)
+	Sound:playEffect(EffectTypes.Transition)
+	love.graphics.setBackgroundColor(100, 100, 100)
 end
 
 function StateExplore:update(dt)

@@ -1,9 +1,14 @@
 StateMenu = {}
 function StateMenu:init()
-	Sound:playmusic(MusicTypes.Menu)
+	local started = false
 end
 
 function StateMenu:enter()
+	if (started) then
+		Sound:playEffect(EffectTypes.Transition)
+		started = true
+	end
+	Sound:playMusic(MusicTypes.Menu)
 end
 
 function StateMenu:draw()
@@ -13,7 +18,6 @@ end
 
 function StateMenu:keyreleased(key, unicode)
     if key == "return" then
-	Sound:playmusic(MusicTypes.Exploration)
         Gamestate.switch(StateExplore)
 	end
 end
