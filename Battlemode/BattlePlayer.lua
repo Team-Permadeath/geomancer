@@ -24,3 +24,8 @@ function BattlePlayer:move(x, y)
         self.y = testY
     end	
 end
+
+function BattlePlayer:update(dt)
+	--self.x = (self.x - (self.x - self.battleMap.grid.x)) * self.speed * dt;
+	--self.y = (self.y - (self.y - self.battleMap.grid.y)) * self.speed * dt;
+end

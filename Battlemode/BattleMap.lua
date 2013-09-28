@@ -64,11 +64,12 @@ function BattleMap:draw()
     end
 end
 function BattleMap:test(x, y)
-    if self.battleMap[y][x] == 1 then
-        return 1
-    end
-	if self.battleMap[y][x] == 2 then
-        return 2
-    end
-    return 0
+    return self.battleMap[y][x]
+    --if self.battleMap[y][x] == 1 then
+    --    return 1
+    --end
+	--if self.battleMap[y][x] == 2 then
+    --    return 2
+    --end
+    --return 0
 end
