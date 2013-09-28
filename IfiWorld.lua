@@ -64,7 +64,7 @@ IfiWorld = Class{
 			end
 		end
 		-- init doors
-		doors = {}
+		local doors = {}
 		table.insert(doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
 		table.insert(doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
 		table.insert(doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
@@ -72,13 +72,25 @@ IfiWorld = Class{
 		self.tiledMap = tiledMap
 		self.player = player
 		self.monsters = monsters
+		self.doors = doors
 		self.tileSize = TILE_SIZE
 		self.camera = Camera()
 	end,
 	openDoor = function(self, id)
 		local templateLayerId = self.tiledMap:getLayerId("template")
-		for i, v in ipairs(doors[id]) do
+		for i, v in ipairs(self.doors[id]) do
 			self.tiledMap:setTileId(v[1], v[2], templateLayerId, BACKGROUND_TILE)
+		end
+	end,
+	playerIncrKilledMonster = function(self)
+		local newKilledMonsters = self.player:getKilledMonsters() + 1
+		self.player:setKilledMonster(newKilledMonsters)
+		if newKilledMonsters == 6 then
+			openDoor(1)
+		elseif newKilledMonsters == 11 then
+			openDoor(2)
+		elseif newKilledMonsters == 18 then
+			openDoor(3)
 		end
 	end,
 	movePlayer = function(self, dx, dy)
