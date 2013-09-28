@@ -7,6 +7,7 @@ function StateExplore:init()
 end
 
 function StateExplore:enter(previousState)
+  love.graphics.setBackgroundColor(100, 100, 100)
 end
 
 function StateExplore:update(dt)

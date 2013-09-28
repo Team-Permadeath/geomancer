@@ -48,11 +48,13 @@ function World:load()
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 }
     }
     local tileSprites = {}
-    tileSprites[0] = love.graphics.newImage("Images/grass.png")
-    tileSprites[1] = love.graphics.newImage("Images/river.png")
+    tileSprites[0] = love.graphics.newImage("Images/background_tile.png")
+    tileSprites[1] = love.graphics.newImage("Images/stone_tile.png")
 	local map = Map(#tileIds[1], #tileIds, TILE_SIZE, tileIds, tileSprites)
 	-- init player
-	local player = Player(1, 1, TILE_SIZE, love.graphics.newImage("Images/player.png"), 5)
+	local animSpriteImg = love.graphics.newImage("Images/main_char_anim.png")
+	local animSprite = newAnimation(animSpriteImg, 70, 70, 0.15, 0)
+	local player = Player(1, 1, TILE_SIZE, animSprite, 2)
 	-- init world
 	world = World(map, player, TILE_SIZE)
 end
