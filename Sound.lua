@@ -8,6 +8,8 @@ MusicTypes = {
 	["Menu"] = 1;
 	["Exploration"] = 2;
 	["Combat"] = 3;
+	["Boss"] = 4;
+	["GameOver"] = 5;
 }
 
 EffectTypes = {
@@ -68,12 +70,19 @@ SoundSystem = Class {
 		if (self.playing ~= nil) then
 			self.prevplaying = self.playing
 		end
-		if (self.music[mtype][-1] == 0) then
-			self.music[mtype][-1] = math.random(self.music[mtype][0])
+
+
+		if (mtype == MusicTypes.GameOver) then
+			self.volume = 1
+			self.music[mtype][-1] = 1
+		else
+			self.volume = 0
+			if (self.music[mtype][-1] == 0) then
+				self.music[mtype][-1] = math.random(self.music[mtype][0])
+			end
 		end
 		self.playing = self.music[mtype][self.music[mtype][-1]]
 		love.audio.play(self.playing)
-		self.volume = 0
 	end,
 
 	playEffect = function(self, mtype)
@@ -104,7 +113,7 @@ SoundSystem = Class {
 				self.volume = 1
 			end
 		end
-		if (self.playing:isStopped()) then
+		if (self.playing:isStopped() and self.prevplayingtype ~= MusicTypes.GameOver) then
 			local tmp = self.prevplayingtype
 			self.music[tmp][-1] = 0
 			self.playing = nil
