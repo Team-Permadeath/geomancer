@@ -1,5 +1,8 @@
 require "World"
 
+camera = Camera() -- camera
+world = nil -- representation of whole game's world
+
 StateExplore = {}
 
 function StateExplore:init()

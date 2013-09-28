@@ -6,10 +6,6 @@ snd = Sound()
 snd:playmusic(MusicTypes.Menu)
 require "Player"
 
--- globals being used in different game states
-camera = Camera() -- camera
-world = nil -- representation of whole game's world
-
 -- game states
 require "StateMenu"
 require "StateExplore"
