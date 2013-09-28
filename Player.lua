@@ -3,12 +3,15 @@ Vector = require "Lib.hump.vector-light"
 require "Lib.AnAL"
 
 Player = Class{
-  init = function(self, x, y, tileSize, animSprite, speed)
+  init = function(self, x, y, tileSize, animSprite, speed, health)
     self.x = x
     self.y = y
     self.tileSize = tileSize
     self.animSprite = animSprite
     self.speed = speed
+    self.health = health
+    self.killedMonsters = 0
+    self.collectedNuts = 0
     self.gridPixelX = x * tileSize
     self.gridPixelY = y * tileSize
     self.actPixelX = x * tileSize
@@ -37,6 +40,12 @@ Player = Class{
   end,
   getActPixelPos = function(self)
     return self.actPixelX, self.actPixelY
+  end,
+  getKilledMonsters = function(self)
+    return self.killedMonsters
+  end,
+  setKilledMonsters = function(self, n)
+    self.killedMonsters = n
   end,
   update = function(self, dt)
     self.actPixelX = self.actPixelX - ((self.actPixelX - self.gridPixelX) * self.speed * dt)
