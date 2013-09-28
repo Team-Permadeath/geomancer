@@ -1,6 +1,8 @@
 Class = require "Lib.hump.class"
 Vector = require "Lib.hump.vector-light"
 require "Lib.AnAL"
+require "Cards.Circle"
+require "Cards.CardsRepository"
 
 Player = Class{
   init = function(self, x, y, tileSize, animSprite, speed, health)
@@ -8,14 +10,23 @@ Player = Class{
     self.y = y
     self.tileSize = tileSize
     self.animSprite = animSprite
+    ------
     self.speed = speed
     self.health = health
     self.killedMonsters = 0
     self.collectedNuts = 0
+    self.playerCards = { Circle(), Circle(), Circle(), Circle() ,Square()}
+    ------
     self.gridPixelX = x * tileSize
     self.gridPixelY = y * tileSize
     self.actPixelX = x * tileSize
     self.actPixelY = y * tileSize
+  end,
+  --getAmountCards = function(self)
+  --  return self.playerCards:size()
+ -- end,
+  getCards = function(self)
+    return self.playerCards
   end,
   getX = function(self)
     return self.x
