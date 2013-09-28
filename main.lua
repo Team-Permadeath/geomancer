@@ -1,6 +1,9 @@
 Gamestate = require "Lib.hump.gamestate"
 Camera = require "Lib.hump.camera"
 
+require "Sound"
+snd = Sound()
+snd:playmusic(MusicTypes.Menu)
 require "Player"
 
 -- globals being used in different game states
