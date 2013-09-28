@@ -14,7 +14,9 @@ EffectTypes = {
 Sound = Class {
 	init = function(self)
 		self.playing = nil
+		self.prevplaying = nil
 		self.music = {}
+		self.volume = 0
 		for key, value in pairs(MusicTypes) do
 			self.music[value] = {}
 		end
@@ -28,7 +30,10 @@ Sound = Class {
 		for k, file in ipairs(love.filesystem.enumerate(dir)) do
 			for key, value in pairs(MusicTypes) do
 				if (string.match(file, key)) then
-					self.music[value][1] = love.audio.newSource(dir .. file, "stream")
+					local m = love.audio.newSource(dir .. file, "stream")
+					m:setLooping(true)
+
+					self.music[value][1] = m
 				end
 			end
 
@@ -41,15 +46,34 @@ Sound = Class {
 	end,
 	playmusic = function(self, mtype)
 		if (self.playing ~= nil) then
-			love.audio.pause(self.playing)
+			self.prevplaying = self.playing
 		end
 		if (table.getn(self.music[mtype]) > 0) then
-			love.audio.play(self.music[mtype][1])
+			self.playing = self.music[mtype][1]
+			love.audio.play(self.playing)
+			volume = 0
 		end
 	end,
 	playeffect = function(self, mtype)
 		if (table.getn(self.effects[mtype]) > 0) then
 			love.audio.play(self.effect[mtype][1])
+		end
+	end,
+	update = function(self, dt)
+		if (volume < 1) then
+			volume = volume + dt
+			if (self.playing ~= nil) then
+				self.playing:setVolume(volume^2)
+			end
+			if (self.prevplaying ~= nil) then
+				self.prevplaying:setVolume((1-volume)^2)
+			end
+			if (volume >= 1) then
+				if (self.prevplaying ~= nil) then
+					love.audio.pause(self.prevplaying)
+				end
+				volume = 1
+			end
 		end
 	end
 }

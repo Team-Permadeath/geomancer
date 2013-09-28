@@ -21,6 +21,10 @@ function love.load()
 end
 
 function love.update(dt)
+	snd:update(dt)
+end
+
+function love.keypressed(key, unicode)
 end
 
 function love.keyreleased(key, unicode)
