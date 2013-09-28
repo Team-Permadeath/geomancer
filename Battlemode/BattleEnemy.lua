@@ -6,10 +6,9 @@ BattleEnemy = Class{
 		self.battleMap = battleMap
 		self.x = x * TILE_SIZE
 		self.y = y * TILE_SIZE
+	end,
+	draw = function (self)
+		self.x = self.x + 1
+		self.y = self.y + 1
 	end
 }
-
-function BattleEnemy:draw()
-	self.x = self.x + 1
-	self.y = self.y + 1
-end

@@ -43,6 +43,8 @@ function StateExplore:keyreleased(key, unicode)
     	world:movePlayer(1, 0)
   	end
   	if key == "b" then
+		Sound:playmusic(MusicTypes.Combat)
+		Sound:playeffect(EffectTypes.Transition)
   		Gamestate.switch(StateBattle)
   	end
 end

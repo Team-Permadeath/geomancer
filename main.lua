@@ -2,8 +2,7 @@ Gamestate = require "Lib.hump.gamestate"
 Camera = require "Lib.hump.camera"
 
 require "Sound"
-snd = Sound()
-snd:playmusic(MusicTypes.Menu)
+Sound = SoundSystem()
 require "Player"
 
 -- game states
@@ -17,6 +16,10 @@ function love.load()
 end
 
 function love.update(dt)
+	Sound:update(dt)
+end
+
+function love.keypressed(key, unicode)
 end
 
 function love.keyreleased(key, unicode)
