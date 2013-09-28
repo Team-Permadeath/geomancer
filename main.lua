@@ -3,7 +3,6 @@ Camera = require "Lib.hump.camera"
 
 require "Sound"
 Sound = SoundSystem()
-Sound:playmusic(MusicTypes.Menu)
 require "Player"
 
 -- globals being used in different game states

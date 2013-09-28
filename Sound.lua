@@ -1,5 +1,9 @@
 Class = require "Lib.hump.class"
 
+SoundEnabled = true
+MusicEnabled = true
+EffectsEnabled = true
+
 MusicTypes = {
 	["Menu"] = 1;
 	["Exploration"] = 2;
@@ -13,6 +17,7 @@ EffectTypes = {
 
 SoundSystem = Class {
 	init = function(self)
+		self.prevplayingtype = -1
 		self.playing = nil
 		self.prevplaying = nil
 		self.music = {}
@@ -45,20 +50,30 @@ SoundSystem = Class {
 		end
 	end,
 	playmusic = function(self, mtype)
+		if (self.prevplayingtype == mtype
+			or not SoundEnabled
+			or not MusicEnabled
+			or table.getn(self.music[mtype]) == 0) then
+			return
+		end
+		self.prevplayingtype = mtype
 		if (self.playing ~= nil) then
 			self.prevplaying = self.playing
 		end
-		if (table.getn(self.music[mtype]) > 0) then
-			self.playing = self.music[mtype][1]
-			love.audio.play(self.playing)
-			volume = 0
-		end
+		self.playing = self.music[mtype][1]
+		love.audio.play(self.playing)
+		volume = 0
 	end,
+
 	playeffect = function(self, mtype)
+		if (not SoundEnabled or not EffectsEnabled) then
+			return
+		end
 		if (table.getn(self.effects[mtype]) > 0) then
-			love.audio.play(self.effect[mtype][1])
+			love.audio.play(self.effects[mtype][1])
 		end
 	end,
+
 	update = function(self, dt)
 		if (volume < 1) then
 			volume = volume + dt
