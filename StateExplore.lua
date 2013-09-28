@@ -1,11 +1,13 @@
 require "World"
 
-world = nil -- representation of whole game's world
+local world
+local fogImg
 
 StateExplore = {}
 
 function StateExplore:init()
-  World:load()
+  load_world()
+  fogImg = love.graphics.newImage("Images/fog.png")
 end
 
 function StateExplore:enter(previousState)
@@ -18,6 +20,7 @@ end
 
 function StateExplore:draw()
 	world:draw()
+  love.graphics.draw(fogImg, 0, 0)
 end
 
 function StateExplore:keyreleased(key, unicode)
@@ -38,4 +41,20 @@ function StateExplore:keyreleased(key, unicode)
 		Sound:playeffect(EffectTypes.Transition)
   		Gamestate.switch(StateBattle)
   	end
+end
+
+function load_world()
+  -- init tiled map
+  freeTiles = {}
+  freeTiles[1] = {}
+  freeTiles[1][0] = false
+  freeTiles[1][1] = true
+  freeTiles[1][2] = false
+  local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
+  -- init player
+  local animSpriteImg = love.graphics.newImage("Images/main_char_anim.png")
+  local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
+  local player = Player(15, 15, TILE_SIZE, animSprite, 2)
+  -- init world
+  world = World(tiledMap, player, TILE_SIZE)
 end

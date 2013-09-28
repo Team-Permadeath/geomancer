@@ -33,14 +33,3 @@ World = Class{
 		self.camera:detach()
 	end
 }
-
-function World:load()
-	-- init tiled map
-	local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE)
-	-- init player
-	local animSpriteImg = love.graphics.newImage("Images/main_char_anim.png")
-	local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
-	local player = Player(15, 15, TILE_SIZE, animSprite, 2)
-	-- init world
-	world = World(tiledMap, player, TILE_SIZE)
-end
