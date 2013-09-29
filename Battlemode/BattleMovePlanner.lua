@@ -14,17 +14,17 @@ BattleMovePlanner = Class{
 	end,
 	drawMove = function (self)
 		local pos = self.map:getPosition(self)
-	    love.graphics.setColor(255, 255, 0)
+	    love.graphics.setColor(255, 255, 255)
 	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
 	end,
 	keypressed = function (self, key)
-	    if key == "up" then
+	    if key == "up" or key == "w" then
 	        move(self, 0, -1)
-	    elseif key == "down" then
+	    elseif key == "down" or key == "s" then
 	    	move(self, 0, 1)
-	    elseif key == "left" then
+	    elseif key == "left" or key == "a" then
 	    	move(self, -1, 0)
-	    elseif key == "right" then
+	    elseif key == "right" or key == "d" then
 	    	move(self, 1, 0)
 	    end
 	end

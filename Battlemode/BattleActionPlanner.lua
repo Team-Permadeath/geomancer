@@ -24,13 +24,13 @@ BattleActionPlanner = Class{
 			self.cards:selectCard(self.player, 4)
 		elseif (key == "5") then
 			self.cards:selectCard(self.player, 5)
-		elseif (key == "left") then
+		elseif (key == "left" or key == "a") then
 			self.cards:move(self.player, -1, 0)
-		elseif (key == "right") then
+		elseif (key == "right" or key == "d") then
 			self.cards:move(self.player, 1, 0)
-		elseif (key == "up") then
+		elseif (key == "up" or key == "w") then
 			self.cards:move(self.player, 0, -1)
-		elseif (key == "down") then
+		elseif (key == "down" or key == "s") then
 			self.cards:move(self.player, 0, 1)
 		end
 	end

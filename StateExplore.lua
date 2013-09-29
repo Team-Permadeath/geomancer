@@ -48,9 +48,7 @@ function StateExplore:draw()
 
 end
 
-function StateExplore
-  :mousepressed(x,y,button)
-  
+function StateExplore:mousepressed(x,y,button)
   for n,b in pairs(state.button) do
     if b:mousepressed(x,y,button) then
       if n == "new" then
@@ -110,7 +108,16 @@ function movePlayer(dx, dy)
   else
     local templateLayerId = ifiWorld:getLayerId("template")
     if ifiWorld:getTileId(newPlayerX, newPlayerY, templateLayerId) == METAL_DOOR then
-      ifiWorld:setDoorBubbleTimer(3)
+      local killedMonsters = player:getKilledMonsters()
+      if 5 < killedMonsters and not ifiWorld:isDoorOpen(1) then
+        ifiWorld:openDoor(1)
+      elseif 10 < killedMonsters and not ifiWorld:isDoorOpen(2) then
+        ifiWorld:openDoor(2)
+      elseif 17 < killedMonsters and not ifiWorld:isDoorOpen(3) then
+        ifiWorld:openDoor(3)
+      else
+        ifiWorld:setDoorBubbleTimer(5)
+      end
     end
   end
 end

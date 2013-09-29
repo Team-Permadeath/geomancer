@@ -6,7 +6,7 @@ Square = Class{
 		self.x = 0
 		self.y = 0
 	end,
-	drawAction = function (self, map)
+	drawAction = function (self, map, player)
 	    love.graphics.setColor(200, 200, 0)
 	    love.graphics.rectangle("line", map:getRealX(self.x), map:getRealY(self.y), map.grid.tileSize, map.grid.tileSize)
 	end,

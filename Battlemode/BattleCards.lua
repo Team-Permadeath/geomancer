@@ -28,16 +28,20 @@ BattleCards = Class{
 	    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	    for i=1, numberOfCards do
 	    	if (i == self.selected) then
-	    		love.graphics.setColor(0, 0, 0)
-	    		love.graphics.rectangle("fill", self.x + (i - 1) * self.dimensions.slot, self.y, self.dimensions.slot, self.height)
+			    love.graphics.setColor(100, 100, 100)
+			    love.graphics.draw(love.graphics.newImage("Images/card_bg-10.png"), self.x + (i - 1) * self.dimensions.slot, self.y)
 	    	end
-	    	love.graphics.setColor(150, 150, 150)
+	    	love.graphics.setColor(255, 255, 255)
 	    	love.graphics.draw(self.cards[i].image, self.x + (i - 1) * self.dimensions.slot + self.dimensions.card.x, self.y + self.dimensions.card.y)
 	    end
 	    self.cards[self.selected]:drawAction(map, player)
 	end,
 	drawMove = function (self)
-		-- display cards in grey
+	    love.graphics.setColor(100, 100, 100)
+	    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+	    for i=1, numberOfCards do
+	    	love.graphics.draw(self.cards[i].image, self.x + (i - 1) * self.dimensions.slot + self.dimensions.card.x, self.y + self.dimensions.card.y)
+	    end
 	end,
 	selectCard = function (self, player, selected)
 		local curX = self.cards[self.selected].x
