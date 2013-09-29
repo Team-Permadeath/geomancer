@@ -111,10 +111,10 @@ Triangle = Class{
 			effect:setDirection(3.14)
 		elseif(diffY == 1) then
 			--print("DOWN")
-			effect:setDirection(1.57)
+			effect:setDirection(4.71)
 		elseif(diffY == -1) then
 			--print("UP")
-			effect:setDirection(4.71)
+			effect:setDirection(1.57)
 		end
 		StartEffect(map:getRealX(self.player.x) + 0.5 * map.grid.tileSize,
 		map:getRealY(self.player.y) + 0.5 * map.grid.tileSize, 
