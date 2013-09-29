@@ -7,6 +7,7 @@ TOP_STONE_TILE = 2
 TOP_METAL_DOOR = 3
 TOP_SLIME_BIG = 6
 TOP_SLIME_SMALL = 5
+TOP_ROGER = 7
 
 TopFloorWorld = Class{
 	init = function(self)
@@ -33,13 +34,14 @@ TopFloorWorld = Class{
 			end
 		end
 		-- init bubbles
-		-- local bubbles = {
-		-- 	door = love.graphics.newImage("Bubbles/speech_bubbles-02.png")
-		-- }
+		local bubbles = {
+		 	roger = love.graphics.newImage("Bubbles/bubble_at_rogers.png")
+		}
 		-- init world
 		self.monsters = monsters
 		self.openDoors = openDoors
-		-- self.bubbles = bubbles
+		self.bubbles = bubbles
+		self.rogerBubbleTimer = -1
 		self.tileSize = TILE_SIZE
 	end,
 	tileIsFree = function(self, x, y)
@@ -74,6 +76,16 @@ TopFloorWorld = Class{
 		local monstersLayerId = self.tiledMap:getLayerId("monsters")
 		return self.tiledMap:getTileId(x, y, monstersLayerId)
 	end,
+	isRoger = function(self, x, y)
+		local npcLayerId = self.tiledMap:getLayerId("npc")
+		if self.tiledMap:getTileId(x, y, npcLayerId) == TOP_ROGER then
+			return true
+		end
+		return false
+	end,
+	setRogerBubbleTimer = function(self, sec)
+  		self.rogerBubbleTimer = sec
+  	end,
 	loadMap = function(self)
 		local freeTiles = {}
 		for i = 0, 7 do
@@ -90,11 +102,17 @@ TopFloorWorld = Class{
 		for i = 1, #self.monsters do
 			self.monsters[i]:update(dt)
 		end
+		if 0 < self.rogerBubbleTimer then
+			self.rogerBubbleTimer = self.rogerBubbleTimer - dt
+		end
 	end,
 	draw = function(self, cameraX, cameraY)
 		self.tiledMap:draw(cameraX, cameraY)
 		for i = 1, #self.monsters do
 			self.monsters[i]:draw()
+		end
+		if 0 < self.rogerBubbleTimer then
+			love.graphics.draw(self.bubbles.roger, cameraX - 160, cameraY - 170)
 		end
 	end
 }
