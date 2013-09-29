@@ -16,8 +16,14 @@ IFI_SLIME_SMALL = 24
 
 IfiWorld = Class{
 	init = function(self)
+		-- init doors
+		self.openDoors = {false, false, false}
+		self.doorKills = {6, 11, 18}
+		self.doors = {}
+		table.insert(self.doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
+		table.insert(self.doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
+		table.insert(self.doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init tiled map
-		-- set free tiles where player can walk into
 		self:loadMap()
 		-- init monsters
 		local monstersImg = {}
@@ -50,12 +56,6 @@ IfiWorld = Class{
 				end
 			end
 		end
-		-- init doors
-		local openDoors = {false, false, false}
-		local doors = {}
-		table.insert(doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
-		table.insert(doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
-		table.insert(doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init bubbles
 		local bubbles = {
 			door = love.graphics.newImage("Bubbles/speech_bubbles-02.png"),
@@ -67,8 +67,6 @@ IfiWorld = Class{
 		self.doorBubbleTimer = -1
 		self.introBubblesTimer = 15
 		self.monsters = monsters
-		self.openDoors = openDoors
-		self.doors = doors
 		self.bubbles = bubbles
 		self.tileSize = TILE_SIZE
 	end,
@@ -87,8 +85,20 @@ IfiWorld = Class{
   	setDoorBubbleTimer = function(self, sec)
   		self.doorBubbleTimer = sec
   	end,
-  	isDoorOpen = function(self, id)
-  		return self.openDoors[id]
+  	getDoorId = function(self, x, y)
+  		for id = 1, 3 do
+			for i, v in ipairs(self.doors[id]) do
+				if v[1] == x and v[2] == y then
+					if not self.openDoors[id] then
+						return id
+					end
+				end
+			end
+		end
+		return 0
+  	end,
+  	getDoorKills = function(self, id)
+  		return self.doorKills[id]
   	end,
 	openDoor = function(self, id)
 		self.openDoors[id] = true
@@ -118,6 +128,7 @@ IfiWorld = Class{
 		return self.tiledMap:getTileId(x, y, monstersLayerId)
 	end,
 	loadMap = function(self)
+		-- set free tiles where player can walk into
 		local freeTiles = {}
 		for i = 0, 27 do
 			freeTiles[i] = false
@@ -130,6 +141,15 @@ IfiWorld = Class{
 		local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
 		tiledMap:setLayerInvisible("monsters")
 		self.tiledMap = tiledMap
+		-- update doors
+		for id = 1, 3 do
+			if self.openDoors[id] then
+				local templateLayerId = self.tiledMap:getLayerId("template")
+				for i, v in ipairs(self.doors[id]) do
+					self.tiledMap:setTileId(v[1], v[2], templateLayerId, IFI_BACKGROUND_TILE)
+				end
+			end
+		end
 	end,
 	update = function(self, dt)
 		self.tiledMap:update(dt)
