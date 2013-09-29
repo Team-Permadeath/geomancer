@@ -6,6 +6,7 @@ function StateBattleMove:enter(previousState, map, player, enemy, cards, movePla
     self.enemy = enemy
     self.cards = cards
     self.movePlanner = movePlanner
+    movePlanner:enter()
     self.actionPlanner = actionPlanner
     self.label = label
     self.helper = helper

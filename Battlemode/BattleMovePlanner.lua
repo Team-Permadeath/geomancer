@@ -4,8 +4,10 @@ BattleMovePlanner = Class{
 	init = function (self, map, player)
 		self.map = map
 		self.player = player
-		self.x = player.x
-		self.y = player.y
+	end,
+	enter = function (self) 
+		self.x = self.player.x
+		self.y = self.player.y
 	end,
 	drawMove = function (self)
 		local pos = self.map:getPosition(self)
