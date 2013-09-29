@@ -32,6 +32,26 @@ function StateExplore:enter(previousState, enemyX, enemyY)
 end
 
 function StateExplore:update(dt)
+  local blockMovement = false
+  if activeWorld == TOP_FLOOR_WORLD then
+    if worlds[activeWorld]:isRogerAwake() then
+      blockMovement = true
+    end
+  end
+  if not blockMovement and player:almostInDestination() then
+    if love.keyboard.isDown("up") then
+      movePlayer(0, -1)
+    end
+    if love.keyboard.isDown("down") then
+      movePlayer(0, 1)
+    end
+    if love.keyboard.isDown("left") then
+      movePlayer(-1, 0)
+    end
+    if love.keyboard.isDown("right") then
+      movePlayer(1, 0)
+    end
+  end
   worlds[activeWorld]:update(dt)
   player:update(dt)
   -- update camera
@@ -83,23 +103,6 @@ function StateExplore:mousepressed(x,y,button)
 end
 
 function StateExplore:keyreleased(key, unicode)
-    if activeWorld == TOP_FLOOR_WORLD then
-      if worlds[activeWorld]:isRogerAwake() then
-        return
-      end
-    end
-	  if key == "up" then
-    	movePlayer(0, -1)
-  	end
-  	if key == "down" then
-    	movePlayer(0, 1)
-  	end
-  	if key == "left" then
-    	movePlayer(-1, 0)
-  	end
-  	if key == "right" then
-    	movePlayer(1, 0)
-  	end
     if key == "i" then
       Gamestate.switch(StateInventory)
     end
