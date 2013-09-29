@@ -33,6 +33,9 @@ Player = Class{
   getCards = function(self)
     return self.playerCards
   end,
+  rmvCard = function(self,index)
+    table.remove(self.playerCards, index)
+  end,
   getX = function(self)
     return self.x
   end,

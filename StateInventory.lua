@@ -20,13 +20,15 @@ function StateInventory:create()
 	--test3 = Button.create("Remove", 500,600)
 	--table.insert(temp.button,test3)
 
-	print("DERP2")
+	--print("DERP2")
 	u=0
 	for i, v in ipairs(cards) do
-     	tempp=Button.create("Rmv",350+ 110*(i%7), 275+(u*200))
+		local tempp = {}
+		--setmetatable(tempp, StateInventory)
+     	tempp = Button.create("Rmv",350+ 110*((i-1)%7), 275+(u*200), i)
      	table.insert(temp.button, tempp)
      	--love.graphics.draw(v.image, 300+ 110*(i%7), 300+(u*200))
-     	print("DERP")
+     	--print("DERP")
      	if i%7==0 then u=u+1 end
     end	
 
@@ -43,7 +45,7 @@ function StateInventory:addButton(posx, posy)
 	setmetatable(temp, StateInventory)
 	--temp.button = {	
 	tempButton = Button.create("Remove", posx,posy) 
-	--}
+	--}	
 	return tempButton
 end
 
@@ -96,22 +98,21 @@ end
 
 function StateInventory:mousepressed(x,y,button)
 	
-	for n,b in pairs(state.button) do
+	for n,b in pairs(invButtons.button) do
 		if b:mousepressed(x,y,button) then
-			if n == "new" then
-				--state = Game.create()
-				love.graphics.setColor(unpack(color["text"])) 
-				Gamestate.switch(StateExplore)
-			elseif n == "instructions" then
-				state = Instructions.create()
-			elseif n == "options" then
-				state = Options.create()
-			elseif n == "quit" then
-				--love.event.push("quit")
-			elseif n == "testButton" then
-				--love.event.push("quit")
-				Gamestate.switch(StateExplore)
-			end
+				if b.text == "Rmv" then
+				--print(" ->")--love.event.push("quit")
+					print(" ->" , b.cardIndex)--love.event.push("quit")
+					player:rmvCard(b.cardIndex)
+					Gamestate.switch(StateExplore)
+				end
+
+			if b.text == "Exit" then
+					--love.event.push("quit")
+					--print(" <->") --love.event.push("quit")
+					Gamestate.switch(StateExplore)
+					 end
+			
 		end
 	end
 	
