@@ -160,7 +160,7 @@ function movePlayer(dx, dy)
       elseif topFloorWorld:isRoger(newPlayerX, newPlayerY) then
         -- roger interaction
         if player:getCollectedNuts() == 5 then
-
+          topFloorWorld:wakeRoger()
         else
           topFloorWorld:setRogerBubbleTimer(5)
         end
