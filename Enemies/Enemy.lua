@@ -46,6 +46,8 @@ Enemy = Class {
 			end
 		end
 		local final = finalSelection[math.random(1, #finalSelection)]
+		--print("P(" .. player.x .. "," .. player.y .. ")")
+		--print("A(" .. final.x .. "," .. final.y .. ")")
 		return {{
 			x = final.x,
 			y = final.y

@@ -83,7 +83,12 @@ function StateExplore:mousepressed(x,y,button)
 end
 
 function StateExplore:keyreleased(key, unicode)
-	if key == "up" then
+    if activeWorld == TOP_FLOOR_WORLD then
+      if worlds[activeWorld]:isRogerAwake() then
+        return
+      end
+    end
+	  if key == "up" then
     	movePlayer(0, -1)
   	end
   	if key == "down" then
@@ -95,9 +100,9 @@ function StateExplore:keyreleased(key, unicode)
   	if key == "right" then
     	movePlayer(1, 0)
   	end
-  	if key == "b" then
-  		Gamestate.switch(StateBattle, 22, 0, 0)
-  	end
+  	-- if key == "b" then
+  	-- 	Gamestate.switch(StateBattle, 22)
+  	-- end
 end
 
 function movePlayer(dx, dy)
