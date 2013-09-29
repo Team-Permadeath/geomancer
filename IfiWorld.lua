@@ -18,7 +18,7 @@ IfiWorld = Class{
 	init = function(self)
 		-- init doors
 		self.openDoors = {false, false, false}
-		self.doorKills = {6, 11, 18}
+		self.doorKills = {3, 7, 10}
 		self.doors = {}
 		table.insert(self.doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
 		table.insert(self.doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
@@ -150,6 +150,13 @@ IfiWorld = Class{
 			end
 		end
 		return false
+	end,
+	removeMonster = function (self, x, y)
+		for i, m in ipairs(self.monsters) do
+			if m:getX() == x and m:getY() == y then
+				table.remove(self.monsters, i)
+			end
+		end
 	end,
 	getMonsterId = function(self, x, y)
 		local monstersLayerId = self.tiledMap:getLayerId("monsters")

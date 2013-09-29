@@ -17,6 +17,7 @@ globalFontSmall = love.graphics.newFont(globalFontFile, 20)
 -- game states
 require "StateMenu"
 require "StateExplore"
+require "StateCredits"
 require "StateBattle"
 require "StateInventory"
 -- cards
@@ -27,11 +28,10 @@ function love.load()
 	local animSpriteImg = love.graphics.newImage("Characters/main_char_anim-05.png")
 	local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
 	love.graphics.setFont(globalFont)
-	--player = Player(16, 13, TILE_SIZE, animSprite, 5, 5)
-	player = Player(90, 11, TILE_SIZE, animSprite, 5, 5)
+	player = Player(16, 13, TILE_SIZE, animSprite, 300, 5)
 	Gamestate.registerEvents()
 	Gamestate.switch(StateMenu)
-	cards = CardsRepository(3, 3, 3)
+	cards = CardsRepository(5, 3, 3)
 end
 
 function love.update(dt)

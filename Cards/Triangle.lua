@@ -7,6 +7,7 @@ Triangle = Class{
 		self.y = 0
 		self.i = 3
 		self.player = nil
+		self.type = "Triangle"
 	end,
 	drawAction = function (self, map, player)
 		self.player = player

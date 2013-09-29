@@ -26,7 +26,7 @@ end
 function StateMenu:create()
 	local temp = {}
 	temp.button = {	new = Button.create("New Game", 600, 450),
-					instructions = Button.create("Instructions", 600, 500),
+					credits = Button.create("Credits", 600, 500),
 					options = Button.create("Options", 600, 550),
 					quit = Button.create("Quit", 600, 750),
 					inventory = Button.create("Inventory", 100, 50) }
@@ -44,7 +44,7 @@ function StateMenu:draw()
 	love.graphics.draw(background, 0, 0)
 	
 	state.button.new:draw()
-	--state.button.instructions:draw()
+	state.button.credits:draw()
 	--state.button.options:draw()
 	state.button.quit:draw()
 	ParticleDraw()
@@ -63,6 +63,10 @@ function StateMenu:mousepressed(x,y,button)
 		if b:mousepressed(x,y,button) then
 			if n == "new" then
 				Gamestate.switch(StateExplore)
+
+			elseif n == "credits" then
+				Gamestate.switch(StateCredits)
+
 			elseif n == "quit" then
 				love.event.push("quit")
 			end

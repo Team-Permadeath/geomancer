@@ -3,8 +3,9 @@ Class = require "Lib.hump.class"
 require "Battlemode.BattleHealth"
 
 BattleEnemy = Class{
-	init = function(self, enemy, player, map, startX, startY, reward)
+	init = function(self, enemy, player, map, startX, startY, reward, exploreX, exploreY)
 		self.enemy = enemy
+		self.type = "Enemy"
 		self.player = player
 		self.map = map
 		self.x = startX
@@ -13,6 +14,8 @@ BattleEnemy = Class{
 		self.health = BattleHealth(self.imagePosX, 440)
 		self.rewards = enemy:reward(reward)
 		self.spoils = {}
+		self.exploreX = exploreX
+		self.exploreY = exploreY
 	end,
 	draw = function (self)
 		love.graphics.setColor(255, 255, 255)

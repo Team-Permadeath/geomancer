@@ -35,7 +35,7 @@ Enemy = Class {
 		local tmpRating = 0
 		for i, v in ipairs(all) do
 			v["rating"] = math.abs(player.x - v[1]) + math.abs(player.y - v[2])
-			if v["rating"] < lowestRating then
+			if v["rating"] < lowestRating and v["rating"] ~= 0 then
 				lowestRating = v["rating"]
 			end
 		end
@@ -47,8 +47,8 @@ Enemy = Class {
 		end
 		local final = finalSelection[math.random(1, #finalSelection)]
 		return {{
-			x = final.x,
-			y = final.y
+			x = final[1],
+			y = final[2]
 		}}
 	end,
 	reward = function (self, reward)

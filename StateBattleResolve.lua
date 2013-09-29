@@ -2,7 +2,7 @@ StateBattleResolve = {}
 
 function StateBattleResolve:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label, helper)
     self.map = map
-    self.map:reset()
+    self.map:resetHits()
     self.player = player
     self.enemy = enemy
     self.enemy:resolve()
@@ -13,6 +13,7 @@ function StateBattleResolve:enter(previousState, map, player, enemy, cards, move
     self.cards = cards
     self.cards:resolve()
     self.helper = helper
+    self.map:resetRegisters()
 end
 
 function StateBattleResolve:draw()

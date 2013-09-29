@@ -35,13 +35,17 @@ TopFloorWorld = Class{
 		end
 		-- init bubbles
 		local bubbles = {
-		 	roger = love.graphics.newImage("Bubbles/bubble_at_rogers.png")
+		 	roger = love.graphics.newImage("Bubbles/bubble_at_rogers.png"),
+		 	rogerAwake = love.graphics.newImage("Bubbles/speech_bubbles-01.png")
 		}
 		-- init world
 		self.monsters = monsters
 		self.openDoors = openDoors
 		self.bubbles = bubbles
 		self.rogerBubbleTimer = -1
+		self.rogerAwakeTimer = -1
+		self.rogerAwake = false
+		self.rogerAnim = newAnimation(love.graphics.newImage("Characters/npcs/roger_awake-36.png"), TILE_SIZE, TILE_SIZE, 0.1, 0)
 		self.tileSize = TILE_SIZE
 	end,
 	tileIsFree = function(self, x, y)
@@ -86,6 +90,14 @@ TopFloorWorld = Class{
 	setRogerBubbleTimer = function(self, sec)
   		self.rogerBubbleTimer = sec
   	end,
+  	wakeRoger = function(self)
+  		self.rogerAwake = true
+  		self.tiledMap:setLayerInvisible("npc")
+  		self.rogerAwakeTimer = 5
+  	end,
+  	isRogerAwake = function(self)
+  		return self.rogerAwake
+  	end,
 	loadMap = function(self)
 		local freeTiles = {}
 		for i = 0, 7 do
@@ -97,6 +109,13 @@ TopFloorWorld = Class{
 		tiledMap:setLayerInvisible("monsters")
 		self.tiledMap = tiledMap
 	end,
+	removeMonster = function (self, x, y)
+		for i, m in ipairs(self.monsters) do
+			if m:getX() == x and m:getY() == y then
+				table.remove(self.monsters, i)
+			end
+		end
+	end,
 	update = function(self, dt)
 		self.tiledMap:update(dt)
 		for i = 1, #self.monsters do
@@ -104,6 +123,14 @@ TopFloorWorld = Class{
 		end
 		if 0 < self.rogerBubbleTimer then
 			self.rogerBubbleTimer = self.rogerBubbleTimer - dt
+		end
+		if self.rogerAwake then
+			self.rogerAnim:update(dt)
+			if 0 < self.rogerAwakeTimer then
+				self.rogerAwakeTimer = self.rogerAwakeTimer - dt
+			else
+				Gamestate.switch(StateCredits)
+			end
 		end
 	end,
 	draw = function(self, cameraX, cameraY)
@@ -113,6 +140,10 @@ TopFloorWorld = Class{
 		end
 		if 0 < self.rogerBubbleTimer then
 			love.graphics.draw(self.bubbles.roger, cameraX - 160, cameraY - 170)
+		end
+		if self.rogerAwake then
+			self.rogerAnim:draw(20 * self.tileSize, 10 * self.tileSize)
+			love.graphics.draw(self.bubbles.rogerAwake, cameraX - 100, cameraY - 150)
 		end
 	end
 }

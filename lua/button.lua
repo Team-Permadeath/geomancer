@@ -11,7 +11,7 @@
 Button = {}
 Button.__index = Button
 
-function Button.create(text,x,y)
+function Button.create(text,x,y,ww)
 	local temp = {}
 	setmetatable(temp, Button)
 	temp.hover = false -- whether the mouse is hovering over the button
@@ -21,6 +21,7 @@ function Button.create(text,x,y)
 	temp.height = font["large"]:getHeight()
 	temp.x = x - (temp.width / 2)
 	temp.y = y
+	temp.cardIndex = ww
 	return temp
 	
 end

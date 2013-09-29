@@ -44,9 +44,13 @@ local reward
 
 -- an enemy for testing
 
-function StateBattle:enter(previousState, monsterId)
+function StateBattle:enter(previousState, monsterId, monsterX, monsterY)
 	Sound:playEffect(EffectTypes.Transition)
-	Sound:playMusic(MusicTypes.Combat)
+    if monsterId == 23 or monsterId == 6 then
+	   Sound:playMusic(MusicTypes.Boss)
+    else
+        Sound:playMusic(MusicTypes.Combat)
+    end
 
     if monsterId == 20 then
         enemy = SkeletonMage()
@@ -62,7 +66,7 @@ function StateBattle:enter(previousState, monsterId)
 
     map = BattleMap(gridStartX, gridStartY, gridFactor)
     player = BattlePlayer(map, math.random(4, 7), playerStartY)
-    enemy = BattleEnemy(enemy, player, map, math.random(4, 7), enemyStartY, BattleReward())
+    enemy = BattleEnemy(enemy, player, map, math.random(4, 7), enemyStartY, BattleReward(), monsterX, monsterY)
     cards = BattleCards(cardsStartX, cardsStartY, cardsWidth, cardsHeight)
     movePlanner = BattleMovePlanner(map, player)
     actionPlanner = BattleActionPlanner(map, player, cards)

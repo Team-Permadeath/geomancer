@@ -32,7 +32,15 @@ Player = Class{
   --  return self.playerCards:size()
  -- end,
   getCards = function(self)
+  ---org
     return self.playerCards
+    --new
+    --self.playerCards=cards:getAllCards()
+    --return self.playerCards
+
+  end,
+  rmvCard = function(self,index)
+    table.remove(self.playerCards, index)
   end,
   getX = function(self)
     return self.x
@@ -78,11 +86,28 @@ Player = Class{
   setKilledMonsters = function(self, n)
     self.killedMonsters = n
   end,
+  almostInDestination = function(self)
+    if  Vector.dist(self.actPixelX, self.actPixelY, self.gridPixelX, self.gridPixelY) < 0.05 * self.tileSize then
+      return true
+    else
+      return false
+    end
+  end,
+  distToDestination = function(self)
+    return Vector.dist(self.actPixelX, self.actPixelY, self.gridPixelX, self.gridPixelY)
+  end,
   update = function(self, dt)
-    self.actPixelX = self.actPixelX - ((self.actPixelX - self.gridPixelX) * self.speed * dt)
-    self.actPixelY = self.actPixelY - ((self.actPixelY - self.gridPixelY) * self.speed * dt)
+    print(self:distToDestination())
+    if self.speed * dt < self:distToDestination() then
+      local dx, dy = Vector.mul(self.speed * dt, Vector.normalize(self.gridPixelX - self.actPixelX, self.gridPixelY - self.actPixelY))
+      self.actPixelX = self.actPixelX + dx
+      self.actPixelY = self.actPixelY + dy
+    else
+      self.actPixelX = self.gridPixelX
+      self.actPixelY = self.gridPixelY
+    end
     -- some threshold for animation
-    if 0.05 * self.tileSize < Vector.dist(self.actPixelX, self.actPixelY, self.gridPixelX, self.gridPixelY) then
+    if not self:almostInDestination() then
       self.animSprite:update(dt)
     end
   end,
