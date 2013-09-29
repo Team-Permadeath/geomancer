@@ -15,7 +15,7 @@ Player = Class{
     ------
     self.speed = speed
     self.health = health
-    self.killedMonsters = 0
+    self.killedMonsters = 20
     self.collectedNuts = 0
     self.playerCards = { 
                       Circle(), Circle(), Circle(), Circle() ,Square(), Circle(), Circle(), 
