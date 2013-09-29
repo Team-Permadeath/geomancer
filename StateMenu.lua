@@ -9,8 +9,7 @@ function StateMenu:init()
 				large = love.graphics.newFont(32),
 				huge = love.graphics.newFont(72),
 				small = love.graphics.newFont(22) }
-	graphics = {background = love.graphics.newImage("Images/temp.jpg") ,
-				logo = love.graphics.newImage("Images/sneak-12.png")
+	graphics = {background = love.graphics.newImage("Images/main_menu_bg-01.png") ,
 				--fmas = love.graphics.newImage("media/fmas.png"),
 				--set = love.graphics.newImage("media/set.png"),
 				--notset = love.graphics.newImage("media/notset.png") 
@@ -51,8 +50,7 @@ end
 function StateMenu:draw()
 	--love.graphics.draw(drawable, x, y, r, sx, sy, ox, oy, kx, ky)
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.draw(graphics["background"], 0, 0, 0, 3, 3, 100, 75)
-	love.graphics.draw(graphics["logo"], 400, 225, 0, 1, 1, 100, 75)
+	love.graphics.draw(graphics["background"], 0, 0)
 	
 	for n,b in pairs(state.button) do
 		b:draw()
