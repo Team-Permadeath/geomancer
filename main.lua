@@ -11,6 +11,7 @@ player = nil
 cards = nil -- representation of cards
 globalFontFile = "Fonts/Century_Gothic_Bold.ttf"
 globalFont = love.graphics.newFont(globalFontFile, 40)
+globalFontSmall = love.graphics.newFont(globalFontFile, 20)
 
 -- game states
 require "StateMenu"

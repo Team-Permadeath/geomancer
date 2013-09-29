@@ -50,5 +50,11 @@ Enemy = Class {
 			x = final.x,
 			y = final.y
 		}}
+	end,
+	reward = function (self, reward)
+		return {
+			reward:chooseReward(1, 100),
+			reward:chooseReward(1, 100)
+		}
 	end
 }

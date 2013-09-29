@@ -3,6 +3,7 @@ StateBattleVictory = {}
 function StateBattleVictory:enter(previousState, player, enemy, label, helper)
     self.player = player
     self.enemy = enemy
+    enemy:reward()
     self.label = label
     self.helper = helper
 end

@@ -5,6 +5,7 @@ Triangle = Class{
 		self.image = love.graphics.newImage("Images/cards-04.png")
 		self.x = 0
 		self.y = 0
+		self.i = 3
 	end,
 	drawAction = function (self, map, player)
 		local diffX = self.x - player.x
