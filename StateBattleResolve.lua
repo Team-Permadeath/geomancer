@@ -32,7 +32,7 @@ end
 function StateBattleResolve:keyreleased(key)
     if key == "return" then
         if (self.player:isDead()) then
-            Gamestate.switch(StageGameOver)
+            Gamestate.switch(StateGameOver)
         elseif (self.enemy:isDead()) then
             Gamestate.switch(StateBattleVictory, self.player, self.enemy, self.label, self.helper)
         else

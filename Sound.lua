@@ -73,6 +73,9 @@ SoundSystem = Class {
 
 
 		if (mtype == MusicTypes.GameOver) then
+			if (self.prevplaying ~= nil) then
+				self.prevplaying:setVolume(0)
+			end
 			self.volume = 1
 			self.music[mtype][-1] = 1
 		else

@@ -20,6 +20,7 @@ require "StateExplore"
 require "StateCredits"
 require "StateBattle"
 require "StateInventory"
+require "StateGameOver"
 -- cards
 require "Cards.CardsRepository"
 
