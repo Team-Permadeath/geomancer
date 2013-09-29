@@ -86,11 +86,19 @@ Player = Class{
   setKilledMonsters = function(self, n)
     self.killedMonsters = n
   end,
+  almostInDestination = function(self)
+
+    if  Vector.dist(self.actPixelX, self.actPixelY, self.gridPixelX, self.gridPixelY) < 0.05 * self.tileSize then
+      return true
+    else
+      return false
+    end
+  end,
   update = function(self, dt)
     self.actPixelX = self.actPixelX - ((self.actPixelX - self.gridPixelX) * self.speed * dt)
     self.actPixelY = self.actPixelY - ((self.actPixelY - self.gridPixelY) * self.speed * dt)
     -- some threshold for animation
-    if 0.05 * self.tileSize < Vector.dist(self.actPixelX, self.actPixelY, self.gridPixelX, self.gridPixelY) then
+    if not self:almostInDestination() then
       self.animSprite:update(dt)
     end
   end,

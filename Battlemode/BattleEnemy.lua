@@ -5,6 +5,7 @@ require "Battlemode.BattleHealth"
 BattleEnemy = Class{
 	init = function(self, enemy, player, map, startX, startY, reward, exploreX, exploreY)
 		self.enemy = enemy
+		self.type = "Enemy"
 		self.player = player
 		self.map = map
 		self.x = startX
