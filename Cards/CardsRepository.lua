@@ -4,17 +4,13 @@ require "Cards.Circle"
 require "Cards.Square"
 require "Cards.Triangle"
 
-local cards = {}
-cards[1] = Circle
-cards[2] = Square
-cards[3] = Triangle
+local cards = { Circle, Square, Triangle }
 
 CardsRepository = Class{
 	init = function (self, startSquare, startCircle, startTriangle)
-		self.circles = populate(Circle, startCircle)
-		self.squares = populate(Square, startSquare)
-		self.triangles = populate(Triangle, startTriangle)
-
+		self.card = {Circle(), Square(), Triangle()}
+		self.deck = {startCircle, startSquare, startTriangle}
+		self.max = {startCircle, startSquare, startTriangle}
 	end,
 	draw = function (self, x, y)
 		local width = 100
@@ -23,27 +19,42 @@ CardsRepository = Class{
 		local textOffsetX = 42
 		local textOffsetY = 55
 		love.graphics.setColor(255, 255, 255)
-		love.graphics.draw(self.circles[1].image, x, y)
-		love.graphics.draw(self.squares[1].image, x + offset, y)
-		love.graphics.draw(self.triangles[1].image, x + offset * 2, y)
+		for i, v in ipairs(self.card) do
+			love.graphics.draw(v.image, x + offset * (i - 1), y)
+		end
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.print(#self.circles, x + textOffsetX, y + textOffsetY)
-		love.graphics.print(#self.squares, x + offset + textOffsetX, y + textOffsetY)
-		love.graphics.print(#self.triangles, x + offset * 2 + textOffsetX, y + textOffsetY)
+		for i, v in ipairs(self.deck) do
+			love.graphics.print(v, x + offset * (i - 1) + textOffsetX, y + textOffsetY)
+		end
 	end,
 	drawCards = function(self, amount)
 		a = {}
 		for i = 1, amount do
-			a[i] = cards[math.random(1, 3)]()
+			a[i] = getCard(self)
+			reshuffle(self)
 		end
 		return a
 	end
 }
 
-function populate(card, number)
-	local list = {}
-	for i = 1, number do
-		list[i] = card()
+function getCard(repo)
+	local index = math.random(1, 3)
+	if (repo.deck[index] > 0) then
+		repo.deck[index] = repo.deck[index] - 1
+		return repo.card[index]
+	else
+		return getCard(repo)
 	end
-	return list
+end
+
+function reshuffle(repo)
+	local cardsLeft = 0
+	for i, v in ipairs(repo.deck) do
+		cardsLeft = cardsLeft + v
+	end
+	if cardsLeft == 0 then
+		for i, v in ipairs(repo.max) do
+			repo.deck[i] = v - repo.deck[i]
+		end
+	end
 end
