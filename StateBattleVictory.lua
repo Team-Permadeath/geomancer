@@ -2,6 +2,7 @@ StateBattleVictory = {}
 
 function StateBattleVictory:enter(previousState, player, enemy, label, helper)
     self.player = player
+    player:increaseMonsterKill()
     self.enemy = enemy
     enemy:reward()
     self.label = label

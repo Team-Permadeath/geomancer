@@ -49,5 +49,8 @@ BattlePlayer = Class{
 	end,
 	isDead = function (self)
 		return player:isDead()
+	end,
+	increaseMonsterKill = function (self)
+		player.killedMonsters = player.killedMonsters + 1
 	end
 }
