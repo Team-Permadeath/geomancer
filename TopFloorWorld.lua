@@ -95,6 +95,9 @@ TopFloorWorld = Class{
   		self.tiledMap:setLayerInvisible("npc")
   		self.rogerAwakeTimer = 5
   	end,
+  	isRogerAwake = function(self)
+  		return self.rogerAwake
+  	end,
 	loadMap = function(self)
 		local freeTiles = {}
 		for i = 0, 7 do
@@ -105,6 +108,13 @@ TopFloorWorld = Class{
 		local tiledMap = TiledMap("Maps/8th_floor.tmx", TILE_SIZE, freeTiles)
 		tiledMap:setLayerInvisible("monsters")
 		self.tiledMap = tiledMap
+	end,
+	removeMonster = function (self, x, y)
+		for i, m in ipairs(self.monsters) do
+			if m:getX() == x and m:getY() == y then
+				table.remove(self.monsters, i)
+			end
+		end
 	end,
 	update = function(self, dt)
 		self.tiledMap:update(dt)

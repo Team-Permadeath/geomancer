@@ -22,10 +22,13 @@ function StateExplore:init()
   nutImg = love.graphics.newImage("Tiles/decorative/nut-10.png")
 end
 
-function StateExplore:enter(previousState)
+function StateExplore:enter(previousState, enemyX, enemyY)
 	Sound:playMusic(MusicTypes.Exploration)
 	Sound:playEffect(EffectTypes.Transition)
 	love.graphics.setBackgroundColor(100, 100, 100)
+  if enemyX ~= nil and enemyY ~= nil then
+    worlds[activeWorld]:removeMonster(enemyX, enemyY)
+  end
 end
 
 function StateExplore:update(dt)
@@ -80,7 +83,12 @@ function StateExplore:mousepressed(x,y,button)
 end
 
 function StateExplore:keyreleased(key, unicode)
-	if key == "up" then
+    if activeWorld == TOP_FLOOR_WORLD then
+      if worlds[activeWorld]:isRogerAwake() then
+        return
+      end
+    end
+	  if key == "up" then
     	movePlayer(0, -1)
   	end
   	if key == "down" then
@@ -92,12 +100,13 @@ function StateExplore:keyreleased(key, unicode)
   	if key == "right" then
     	movePlayer(1, 0)
   	end
-  	if key == "b" then
-  		Gamestate.switch(StateBattle, 22)
-  	end
     if key == "i" then
       Gamestate.switch(StateInventory)
     end
+  	-- if key == "b" then
+  	-- 	Gamestate.switch(StateBattle, 22)
+  	-- end
+
 end
 
 function movePlayer(dx, dy)
@@ -109,7 +118,7 @@ function movePlayer(dx, dy)
       player:setPos(newPlayerX, newPlayerY)
       -- check for battle
       if ifiWorld:isMonster(newPlayerX, newPlayerY) then
-        Gamestate.switch(StateBattle, ifiWorld:getMonsterId(newPlayerX, newPlayerY))
+        Gamestate.switch(StateBattle, ifiWorld:getMonsterId(newPlayerX, newPlayerY), newPlayerX, newPlayerY)
       end
       -- check for nut
       local nutId = ifiWorld:getNutId(newPlayerX, newPlayerY)
@@ -145,7 +154,7 @@ function movePlayer(dx, dy)
       player:setPos(newPlayerX, newPlayerY)
       -- check for battle
       if topFloorWorld:isMonster(newPlayerX, newPlayerY) then
-        Gamestate.switch(StateBattle, topFloorWorld:getMonsterId(newPlayerX, newPlayerY))
+        Gamestate.switch(StateBattle, topFloorWorld:getMonsterId(newPlayerX, newPlayerY), newPlayerX, newPlayerY)
       end
     else
       if topFloorWorld:isElevator(newPlayerX, newPlayerY) then
