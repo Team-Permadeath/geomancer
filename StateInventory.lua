@@ -2,6 +2,7 @@
 StateInventory = {}
 function StateInventory:init()
 --self.invCardsS=
+nutImg = love.graphics.newImage("Tiles/decorative/nut-10.png")
 
 end
 
@@ -37,6 +38,12 @@ end
 
 
 function StateInventory:draw()
+
+--draw nuts
+ for i = player:getCollectedNuts(), 1, -1 do
+    love.graphics.draw(nutImg, love.graphics.getWidth() - i * 10 - TILE_SIZE, 10)
+  end
+
 		--draw buttons
 		for n,b in pairs(invButtons.button) do
 		b:draw()
