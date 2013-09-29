@@ -107,7 +107,7 @@ function StateInventory:mousepressed(x,y,button)
 			elseif n == "options" then
 				state = Options.create()
 			elseif n == "quit" then
-				love.event.push("quit")
+				--love.event.push("quit")
 			elseif n == "testButton" then
 				--love.event.push("quit")
 				Gamestate.switch(StateExplore)
