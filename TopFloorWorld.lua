@@ -85,6 +85,13 @@ TopFloorWorld = Class{
 		tiledMap:setLayerInvisible("monsters")
 		self.tiledMap = tiledMap
 	end,
+	removeMonster = function (self, x, y)
+		for i, m in ipairs(self.monsters) do
+			if m:getX() == x and m:getY() == y then
+				table.remove(self.monsters, i)
+			end
+		end
+	end,
 	update = function(self, dt)
 		self.tiledMap:update(dt)
 		for i = 1, #self.monsters do

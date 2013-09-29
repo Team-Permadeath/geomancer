@@ -151,6 +151,13 @@ IfiWorld = Class{
 		end
 		return false
 	end,
+	removeMonster = function (self, x, y)
+		for i, m in ipairs(self.monsters) do
+			if m:getX() == x and m:getY() == y then
+				table.remove(self.monsters, i)
+			end
+		end
+	end,
 	getMonsterId = function(self, x, y)
 		local monstersLayerId = self.tiledMap:getLayerId("monsters")
 		return self.tiledMap:getTileId(x, y, monstersLayerId)

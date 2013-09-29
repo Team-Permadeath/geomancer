@@ -18,6 +18,6 @@ end
 
 function StateBattleVictory:keyreleased(key)
     if key == "return" then
-        Gamestate.switch(StateExplore)
+        Gamestate.switch(StateExplore, self.enemy.exploreX, self.enemy.exploreY)
     end
 end
