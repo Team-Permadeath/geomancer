@@ -38,13 +38,22 @@ local cards
 local label
 
 -- an enemy for testing
-local enemy
 
-function StateBattle:enter(previousState)
+function StateBattle:enter(previousState, monsterId)
 	Sound:playEffect(EffectTypes.Transition)
 	Sound:playMusic(MusicTypes.Combat)
 
-    enemy = SkeletonVerdande()
+    if monsterId == 20 then
+        enemy = SkeletonMage()
+    elseif monsterId == 21 then
+        enemy = SkeletonVerdande()
+    elseif monsterId == 22 then
+        enemy = Skeleton()
+    elseif monsterId == 23 then
+        enemy = HugeSlime()
+    elseif monsterId == 24 then
+        enemy = Slime()
+    end
 
     map = BattleMap(gridStartX, gridStartY, gridFactor)
     player = BattlePlayer(map, math.random(4, 7), playerStartY)

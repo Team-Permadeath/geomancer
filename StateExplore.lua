@@ -82,7 +82,7 @@ function StateExplore:keyreleased(key, unicode)
     	movePlayer(1, 0)
   	end
   	if key == "b" then
-  		Gamestate.switch(StateBattle)
+  		Gamestate.switch(StateBattle, 22)
   	end
 end
 
@@ -95,7 +95,7 @@ function movePlayer(dx, dy)
     local monstersLayerId = ifiWorld:getLayerId("monsters")
     local monsterId = ifiWorld:getTileId(newPlayerX, newPlayerY, monstersLayerId)
     if monsterId ~= 0 then
-      Gamestate.switch(StateBattle)
+      Gamestate.switch(StateBattle, monsterId)
     end
     -- check for nut
     local pickableLayerId = ifiWorld:getLayerId("pickable")
