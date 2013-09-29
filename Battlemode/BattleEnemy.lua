@@ -17,6 +17,10 @@ BattleEnemy = Class{
 		love.graphics.draw(self.enemy.image, self.imagePosX, self.map.grid.tileSize, 0, 5)
 		self.health:draw(self.enemy.health)
 	end,
+	drawDefeat = function (self)
+		love.graphics.setColor(0, 0, 0)
+		love.graphics.draw(self.enemy.image, self.imagePosX, self.map.grid.tileSize, 0, 5)
+	end,
 	drawMove = function (self)
 		local pos = self.map:getPosition(self)
 	    love.graphics.setColor(0, 150, 0)
@@ -32,5 +36,8 @@ BattleEnemy = Class{
 	end,
 	takeDamage = function (self, damage)
 		self.enemy.health = self.enemy.health - damage
+	end,
+	isDead = function (self)
+		return self.enemy.health < 1
 	end
 }

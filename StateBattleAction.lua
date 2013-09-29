@@ -1,40 +1,38 @@
-require "Battlemode.BattleActionPlanner"
-
 StateBattleAction = {}
 
-function StateBattleAction:enter(previousState, battleMap, battlePlayer, battleEnemy, battleCards, battleMovePlanner, battleActionPlanner, battleModeLabel)
-    self.battleMap = battleMap
-    self.battlePlayer = battlePlayer
-    self.battleEnemy = battleEnemy
-    self.battleCards = battleCards
-    self.battleCards:enter(battlePlayer)
-    self.battleMovePlanner = battleMovePlanner
-    self.battleActionPlanner = battleActionPlanner
-    self.battleModeLabel = battleModeLabel
+function StateBattleAction:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label)
+    self.map = map
+    self.player = player
+    self.enemy = enemy
+    self.cards = cards
+    self.cards:enter(player)
+    self.movePlanner = movePlanner
+    self.actionPlanner = actionPlanner
+    self.label = label
 end
 
 function StateBattleAction:draw()
-    self.battleMap:draw()
-    self.battlePlayer:draw()
-    self.battlePlayer:drawAction()
-    self.battleEnemy:draw()
-    self.battleEnemy:drawMove()
-    self.battleCards:drawAction(self.battleMap, self.battlePlayer)
-    --self.battleMovePlanner:drawAction()
-    self.battleModeLabel:draw("Choose a spell", 200)
+    self.map:draw()
+    self.player:draw()
+    self.player:drawAction()
+    self.enemy:draw()
+    self.enemy:drawMove()
+    self.cards:drawAction(self.map, self.player)
+    --self.movePlanner:drawAction()
+    self.label:draw("Choose a spell", 200)
 end
 
 function StateBattleAction:keypressed(key)
-    self.battleActionPlanner:keypressed(key)
+    self.actionPlanner:keypressed(key)
     if key == "return" then
-        Gamestate.switch(StateBattleResolve, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
+        Gamestate.switch(StateBattleResolve, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label)
     elseif key == "backspace" then
-        local tmpX = self.battleMovePlanner.x
-        local tmpY = self.battleMovePlanner.y
-        self.battleMovePlanner.x = self.battlePlayer.x
-        self.battleMovePlanner.y = self.battlePlayer.y
-        self.battlePlayer.x = tmpX
-        self.battlePlayer.y = tmpY
-        Gamestate.switch(StateBattleMove, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
+        local tmpX = self.movePlanner.x
+        local tmpY = self.movePlanner.y
+        self.movePlanner.x = self.player.x
+        self.movePlanner.y = self.player.y
+        self.player.x = tmpX
+        self.player.y = tmpY
+        Gamestate.switch(StateBattleMove, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label)
     end
 end

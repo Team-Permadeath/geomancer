@@ -1,6 +1,8 @@
 require "StateBattleAction"
+require "StateBattleDefeat"
 require "StateBattleMove"
 require "StateBattleResolve"
+require "StateBattleVictory"
 require "Battlemode.BattleMap"
 require "Battlemode.BattlePlayer"
 require "Battlemode.BattleEnemy"
@@ -25,13 +27,13 @@ local cardsHeight = 200
 local cardsStartX = 0
 local cardsStartY = WINDOW_HEIGHT - cardsHeight
 
-local battleMap
-local battlePlayer
-local battleMovePlanner
-local battleActionPlanner
-local battleEnemy
-local battleCards
-local battleModeLabel
+local map
+local player
+local movePlanner
+local actionPlanner
+local enemy
+local cards
+local label
 
 -- an enemy for testing
 local enemy = Skeleton()
@@ -40,13 +42,13 @@ function StateBattle:enter(previousState)
 	Sound:playEffect(EffectTypes.Transition)
 	Sound:playMusic(MusicTypes.Combat)
 
-    battleMap = BattleMap(gridStartX, gridStartY, gridFactor)
-    battlePlayer = BattlePlayer(battleMap, playerStartX, playerStartY)
-    battleEnemy = BattleEnemy(enemy, battlePlayer, battleMap, enemyStartX, enemyStartY)
-    battleCards = BattleCards(cardsStartX, cardsStartY, cardsWidth, cardsHeight)
-    battleMovePlanner = BattleMovePlanner(battleMap, battlePlayer)
-    battleActionPlanner = BattleActionPlanner(battleMap, battlePlayer, battleCards)
-    battleModeLabel = BattleModeLabel(battleMap)
+    map = BattleMap(gridStartX, gridStartY, gridFactor)
+    player = BattlePlayer(map, playerStartX, playerStartY)
+    enemy = BattleEnemy(enemy, player, map, enemyStartX, enemyStartY)
+    cards = BattleCards(cardsStartX, cardsStartY, cardsWidth, cardsHeight)
+    movePlanner = BattleMovePlanner(map, player)
+    actionPlanner = BattleActionPlanner(map, player, cards)
+    label = BattleModeLabel(map)
 
-    Gamestate.switch(StateBattleMove, battleMap, battlePlayer, battleEnemy, battleCards, battleMovePlanner, battleActionPlanner, battleModeLabel)
+    Gamestate.switch(StateBattleMove, map, player, enemy, cards, movePlanner, actionPlanner, label)
 end

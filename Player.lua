@@ -79,4 +79,7 @@ Player = Class{
   draw = function(self)
     self.animSprite:draw(self.actPixelX, self.actPixelY)
   end,
+  isDead = function (self)
+    return self.health < 1
+  end
 }

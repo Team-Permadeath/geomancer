@@ -14,6 +14,10 @@ BattlePlayer = Class{
 		love.graphics.draw(player.image, self.map.grid.tileSize, self.map.grid.tileSize, 0, 5)
 		self.health:draw(5)
 	end,
+	drawDefeat = function (self)
+		love.graphics.setColor(0, 0, 0)
+		love.graphics.draw(player.image, self.map.grid.tileSize, self.map.grid.tileSize, 0, 5)
+	end,
 	drawAction = function (self)
 		local pos = self.map:getPosition(self)
 	    love.graphics.setColor(255, 255, 255)
@@ -41,5 +45,8 @@ BattlePlayer = Class{
 	end,
 	takeDamage = function (self, damage)
 		player.health = player.health - damage
+	end,
+	isDead = function (self)
+		return player:isDead()
 	end
 }
