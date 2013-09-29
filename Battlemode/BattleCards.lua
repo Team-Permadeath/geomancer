@@ -6,17 +6,22 @@ BattleCards = Class{
 	init = function (self, x, y, width, height)
 		self.cards = cards:drawCards(numberOfCards)
 		self.selected = 1
+	    self.selectionImage = love.graphics.newImage("Images/card_bg-10.png")
+	    self.selectionImageWidth = 116
+	    self.selectionImageHeight = 154
+	    self.cardWidth = 103
+	    self.cardHeight = 141
 		self.x = x
-		self.y = y
-		self.width = width
-		self.height = height
+		self.y = WINDOW_HEIGHT - self.selectionImageHeight
+		self.width = self.selectionImageWidth * numberOfCards
+		self.height = self.selectionImageHeight
 		self.dimensions = {
-			slot = width / numberOfCards,
+			slot = self.width / numberOfCards,
 			card = {
-				x = width / numberOfCards * 0.05,
-				y = width * 0.05,
-				width = width / numberOfCards * 0.9,
-				height = height * 0.9
+				x = (self.selectionImageWidth - self.cardWidth) / 2,
+				y = (self.selectionImageHeight - self.cardHeight) / 2,
+				width = self.cardWidth,
+				height = self.cardHeight
 			}
 		}
 	end,
@@ -26,26 +31,24 @@ BattleCards = Class{
 	drawAction = function (self, map, player)
 	    love.graphics.setColor(150, 150, 150)
 	    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+	    love.graphics.setColor(100, 100, 100)
+	    love.graphics.draw(self.selectionImage, self.x + (self.selected - 1) * self.dimensions.slot, self.y)
+    	love.graphics.setColor(255, 255, 255)
 	    for i=1, numberOfCards do
-	    	if (i == self.selected) then
-			    love.graphics.setColor(100, 100, 100)
-			    love.graphics.draw(love.graphics.newImage("Images/card_bg-10.png"), self.x + (i - 1) * self.dimensions.slot, self.y)
-	    	end
-	    	love.graphics.setColor(255, 255, 255)
 	    	love.graphics.draw(self.cards[i].image, self.x + (i - 1) * self.dimensions.slot + self.dimensions.card.x, self.y + self.dimensions.card.y)
 	    end
 	    self.cards[self.selected]:drawAction(map, player)
 	end,
 	drawMove = function (self)
 	    love.graphics.setColor(100, 100, 100)
-	    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+	    --love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	    for i=1, numberOfCards do
 	    	love.graphics.draw(self.cards[i].image, self.x + (i - 1) * self.dimensions.slot + self.dimensions.card.x, self.y + self.dimensions.card.y)
 	    end
 	end,
 	drawResolve = function (self)
-	    love.graphics.setColor(100, 100, 100)
-	    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+	    --love.graphics.setColor(100, 100, 100)
+	    --love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 	    for i=1, numberOfCards do
 	    	love.graphics.setColor(100, 100, 100)
 	    	if (i == self.selected) then

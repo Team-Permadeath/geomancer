@@ -5,6 +5,7 @@ Circle = Class{
 		self.image = love.graphics.newImage("Images/cards-06.png")
 		self.x = 0
 		self.y = 0
+		self.i = 1
 	end,
 	drawAction = function (self, map, player)
 	    love.graphics.setColor(200, 200, 0)

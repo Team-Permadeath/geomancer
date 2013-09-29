@@ -12,6 +12,7 @@ require "Battlemode.BattleMovePlanner"
 require "Battlemode.BattleActionPlanner"
 require "Battlemode.BattleModeLabel"
 require "Battlemode.BattleHelper"
+require "Battlemode.BattleReward"
 require "Enemies.HugeSlime"
 require "Enemies.Skeleton"
 require "Enemies.SkeletonMage"
@@ -39,6 +40,7 @@ local enemy
 local cards
 local label
 local helper
+local reward
 
 -- an enemy for testing
 
@@ -60,7 +62,7 @@ function StateBattle:enter(previousState, monsterId)
 
     map = BattleMap(gridStartX, gridStartY, gridFactor)
     player = BattlePlayer(map, math.random(4, 7), playerStartY)
-    enemy = BattleEnemy(enemy, player, map, math.random(4, 7), enemyStartY)
+    enemy = BattleEnemy(enemy, player, map, math.random(4, 7), enemyStartY, BattleReward())
     cards = BattleCards(cardsStartX, cardsStartY, cardsWidth, cardsHeight)
     movePlanner = BattleMovePlanner(map, player)
     actionPlanner = BattleActionPlanner(map, player, cards)

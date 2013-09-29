@@ -29,21 +29,20 @@ BattleMap = Class{
     draw = function (self)
         local gridPosX
         local gridPosY
+        local tileSize = 70
+        local imageFactor = self.grid.tileSize / tileSize
+        local groundImage = love.graphics.newImage("Tiles/background_tile.png")
+        local wallImage = love.graphics.newImage("Tiles/stone_tile.png")
         for y=1, #self.map do
             for x=1, #self.map[y] do
-                gridPosX = self.grid.x + x * self.grid.tileSize
-                gridPosY = self.grid.y + y * self.grid.tileSize
+                gridPosX = self:getRealX(x)
+                gridPosY = self:getRealY(y)
                 if self.map[y][x]== 0 then
                     love.graphics.setColor(62, 62, 62)
-                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                    love.graphics.setColor(255, 255, 255)
+                    love.graphics.draw(groundImage, gridPosX, gridPosY, 0, imageFactor)
                 elseif self.map[y][x] == 1 then
-                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                elseif self.map[y][x]== 2 then
-                    love.graphics.setColor(255, 0, 0)
-                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
                     love.graphics.setColor(255, 255, 255)
-                    
+                    love.graphics.draw(wallImage, gridPosX, gridPosY, 0, imageFactor)
                 end
             end
         end
@@ -54,13 +53,9 @@ BattleMap = Class{
                 if self.map[y][x]== 0 then
                     love.graphics.setColor(62, 62, 62)
                     love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                    love.graphics.setColor(255, 255, 255)
                 elseif self.map[y][x] == 1 then
+                   love.graphics.setColor(255, 255, 255)
                     love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                elseif self.map[y][x]== 2 then
-                    love.graphics.setColor(255, 0, 0)
-                    love.graphics.rectangle("line", gridPosX, gridPosY, self.grid.tileSize, self.grid.tileSize)
-                    love.graphics.setColor(255, 255, 255)   
                 end
             end
         end

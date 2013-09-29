@@ -11,6 +11,7 @@ player = nil
 cards = nil -- representation of cards
 globalFontFile = "Fonts/Century_Gothic_Bold.ttf"
 globalFont = love.graphics.newFont(globalFontFile, 40)
+globalFontSmall = love.graphics.newFont(globalFontFile, 20)
 
 -- game states
 require "StateMenu"
@@ -26,7 +27,8 @@ function love.load()
 	local animSpriteImg = love.graphics.newImage("Characters/main_char_anim-05.png")
 	local animSprite = newAnimation(animSpriteImg, TILE_SIZE, TILE_SIZE, 0.15, 0)
 	love.graphics.setFont(globalFont)
-	player = Player(16, 13, TILE_SIZE, animSprite, 5, 5)
+	--player = Player(16, 13, TILE_SIZE, animSprite, 5, 5)
+	player = Player(90, 11, TILE_SIZE, animSprite, 5, 5)
 	Gamestate.registerEvents()
 	Gamestate.switch(StateMenu)
 	cards = CardsRepository(3, 3, 3)

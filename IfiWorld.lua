@@ -16,9 +16,30 @@ IFI_SLIME_SMALL = 24
 
 IfiWorld = Class{
 	init = function(self)
+		-- init doors
+		self.openDoors = {false, false, false}
+		self.doorKills = {6, 11, 18}
+		self.doors = {}
+		table.insert(self.doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
+		table.insert(self.doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
+		table.insert(self.doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init tiled map
-		-- set free tiles where player can walk into
 		self:loadMap()
+		-- init nuts
+		local pickableLayerId = self.tiledMap:getLayerId("pickable")
+		local nuts = {}
+		for x = 1, self.tiledMap:getWidth() do
+			for y = 1, self.tiledMap:getHeight() do
+				local tileId = self.tiledMap:getTileId(x, y, pickableLayerId)
+				if tileId == IFI_NUT_TILE then
+					table.insert(nuts, {x, y})
+				end
+			end
+		end
+		-- there should be 5 nuts
+		self.collectedNuts = {false, false, false, false, false}
+		self.nuts = nuts
+		self.nutImg = love.graphics.newImage("Tiles/decorative/nut-10.png")
 		-- init monsters
 		local monstersImg = {}
 		monstersImg[IFI_SKELETON_SWORD] = love.graphics.newImage("Characters/monsters/monster_movement1-35.png")
@@ -50,12 +71,6 @@ IfiWorld = Class{
 				end
 			end
 		end
-		-- init doors
-		local openDoors = {false, false, false}
-		local doors = {}
-		table.insert(doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
-		table.insert(doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
-		table.insert(doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init bubbles
 		local bubbles = {
 			door = love.graphics.newImage("Bubbles/speech_bubbles-02.png"),
@@ -67,8 +82,6 @@ IfiWorld = Class{
 		self.doorBubbleTimer = -1
 		self.introBubblesTimer = 15
 		self.monsters = monsters
-		self.openDoors = openDoors
-		self.doors = doors
 		self.bubbles = bubbles
 		self.tileSize = TILE_SIZE
 	end,
@@ -87,8 +100,20 @@ IfiWorld = Class{
   	setDoorBubbleTimer = function(self, sec)
   		self.doorBubbleTimer = sec
   	end,
-  	isDoorOpen = function(self, id)
-  		return self.openDoors[id]
+  	getDoorId = function(self, x, y)
+  		for id = 1, 3 do
+			for i, v in ipairs(self.doors[id]) do
+				if v[1] == x and v[2] == y then
+					if not self.openDoors[id] then
+						return id
+					end
+				end
+			end
+		end
+		return 0
+  	end,
+  	getDoorKills = function(self, id)
+  		return self.doorKills[id]
   	end,
 	openDoor = function(self, id)
 		self.openDoors[id] = true
@@ -96,6 +121,19 @@ IfiWorld = Class{
 		for i, v in ipairs(self.doors[id]) do
 			self.tiledMap:setTileId(v[1], v[2], templateLayerId, IFI_BACKGROUND_TILE)
 		end
+	end,
+	getNutId = function(self, x, y)
+		for id = 1, #self.nuts do
+			if self.nuts[id][1] == x and self.nuts[id][2] == y then
+				if not self.collectedNuts[id] then
+					return id
+				end
+			end
+		end
+		return 0
+	end,
+	pickupNut = function(self, id)
+		self.collectedNuts[id] = true
 	end,
 	isElevator = function(self, x, y)
 		if x == 91 or x == 92 then
@@ -118,6 +156,7 @@ IfiWorld = Class{
 		return self.tiledMap:getTileId(x, y, monstersLayerId)
 	end,
 	loadMap = function(self)
+		-- set free tiles where player can walk into
 		local freeTiles = {}
 		for i = 0, 27 do
 			freeTiles[i] = false
@@ -129,7 +168,17 @@ IfiWorld = Class{
 		freeTiles[IFI_WHITEBOARD2] = true
 		local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
 		tiledMap:setLayerInvisible("monsters")
+		tiledMap:setLayerInvisible("pickable")
 		self.tiledMap = tiledMap
+		-- update doors
+		for id = 1, 3 do
+			if self.openDoors[id] then
+				local templateLayerId = self.tiledMap:getLayerId("template")
+				for i, v in ipairs(self.doors[id]) do
+					self.tiledMap:setTileId(v[1], v[2], templateLayerId, IFI_BACKGROUND_TILE)
+				end
+			end
+		end
 	end,
 	update = function(self, dt)
 		self.tiledMap:update(dt)
@@ -147,8 +196,15 @@ IfiWorld = Class{
 	end,
 	draw = function(self, cameraX, cameraY)
 		self.tiledMap:draw(cameraX, cameraY)
+		-- draw monsters
 		for i = 1, #self.monsters do
 			self.monsters[i]:draw()
+		end
+		-- draw nuts
+		for id = 1, #self.nuts do
+			if not self.collectedNuts[id] then
+				love.graphics.draw(self.nutImg, self.nuts[id][1] * self.tileSize, self.nuts[id][2] * self.tileSize)
+			end
 		end
 		if 0 < self.doorBubbleTimer then
 			love.graphics.draw(self.bubbles.door, cameraX - 140, cameraY - 150)
