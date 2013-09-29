@@ -58,10 +58,14 @@ IfiWorld = Class{
 		table.insert(doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init bubbles
 		local bubbles = {
-			door = love.graphics.newImage("Bubbles/speech_bubbles-02.png")
+			door = love.graphics.newImage("Bubbles/speech_bubbles-02.png"),
+			simen = love.graphics.newImage("Bubbles/speech_bubbles-06.png"),
+			jon = love.graphics.newImage("Bubbles/speech_bubbles-05.png"),
+			kyre = love.graphics.newImage("Bubbles/speech_bubbles-04.png")
 		}
 		-- init world
 		self.doorBubbleTimer = -1
+		self.introBubblesTimer = 15
 		self.monsters = monsters
 		self.openDoors = openDoors
 		self.doors = doors
@@ -136,6 +140,10 @@ IfiWorld = Class{
 		if 0 < self.doorBubbleTimer then
 			self.doorBubbleTimer = self.doorBubbleTimer - dt
 		end
+		-- update intro bubbles timer
+		if 0 < self.introBubblesTimer then
+			self.introBubblesTimer = self.introBubblesTimer - dt
+		end
 	end,
 	draw = function(self, cameraX, cameraY)
 		self.tiledMap:draw(cameraX, cameraY)
@@ -144,6 +152,13 @@ IfiWorld = Class{
 		end
 		if 0 < self.doorBubbleTimer then
 			love.graphics.draw(self.bubbles.door, cameraX - 140, cameraY - 150)
+		end
+		if 10 < self.introBubblesTimer then
+			love.graphics.draw(self.bubbles.simen, 14 * self.tileSize - 140, 12 * self.tileSize - 100)
+		elseif 5 < self.introBubblesTimer then
+			love.graphics.draw(self.bubbles.jon, 14 * self.tileSize - 140, 13 * self.tileSize - 100)
+		elseif 0 < self.introBubblesTimer then
+			love.graphics.draw(self.bubbles.kyre, 14 * self.tileSize - 140, 14 * self.tileSize - 100)
 		end
 	end
 }
