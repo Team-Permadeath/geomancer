@@ -36,8 +36,10 @@ function StateInventory:draw()
     	love.graphics.draw(nutImg, love.graphics.getWidth() - i * 10 - TILE_SIZE, 10)
   	end
 	--draw buttons
-	for n,b in pairs(invButtons.button) do
-		b:draw()
+	if cards:getNumberOfCards()>9 then
+		for n,b in pairs(invButtons.button) do
+			b:draw()
+		end
 	end
 	love.graphics.setColor(255, 255, 255)
 
@@ -65,6 +67,7 @@ function StateInventory:mousepressed(x,y,button)
 	for n,b in pairs(invButtons.button) do
 		if b:mousepressed(x,y,button) then
 			if b.text == "Rmv" then
+
 				cards:removeCard(invCards[b.cardIndex].type)
 				Gamestate.switch(StateInventory)
 			end
