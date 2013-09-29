@@ -4,7 +4,11 @@ require "Cards.Circle"
 require "Cards.Square"
 require "Cards.Triangle"
 
-local cards = { Circle, Square, Triangle }
+local cards = { 
+	["Circle"] = Circle, 
+	["Square"] = Square, 
+	["Triangle"] = Triangle 
+}
 
 CardsRepository = Class{
 	init = function (self, startSquare, startCircle, startTriangle)
@@ -34,6 +38,11 @@ CardsRepository = Class{
 			reshuffle(self)
 		end
 		return a
+	end,
+	addCard = function(self, cardType)
+		local card = cards[cardType]()
+		self.deck[card.i] = self.deck[card.i] + 1
+		self.max[card.i] = self.max[card.i] + 1 
 	end
 }
 
