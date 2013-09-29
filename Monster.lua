@@ -8,6 +8,12 @@ Monster = Class{
     self.tileSize = tileSize
     self.animSprite = animSprite
   end,
+  getX = function(self)
+    return self.x
+  end,
+  getY = function(self)
+    return self.y
+  end,
   update = function(self, dt)
     self.animSprite:update(dt)
   end,

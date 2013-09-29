@@ -54,6 +54,14 @@ Player = Class{
     self:setX(x)
     self:setY(y)
   end,
+  teleportToPos = function(self, x, y)
+    self.x = x
+    self.gridPixelX = x * self.tileSize
+    self.actPixelX = x * self.tileSize
+    self.y = y
+    self.gridPixelY = y * self.tileSize
+    self.actPixelY = y * self.tileSize
+  end,
   getActPixelPos = function(self)
     return self.actPixelX, self.actPixelY
   end,
