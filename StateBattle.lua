@@ -46,7 +46,11 @@ local reward
 
 function StateBattle:enter(previousState, monsterId, monsterX, monsterY)
 	Sound:playEffect(EffectTypes.Transition)
-	Sound:playMusic(MusicTypes.Combat)
+    if monsterId == 23 or monsterId == 6 then
+	   Sound:playMusic(MusicTypes.Boss)
+    else
+        Sound:playMusic(MusicTypes.Combat)
+    end
 
     if monsterId == 20 then
         enemy = SkeletonMage()
