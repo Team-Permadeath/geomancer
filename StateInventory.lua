@@ -76,7 +76,7 @@ function StateInventory:draw()
      			love.graphics.draw(v.image, 300+ 110*((i-1)%7), 100+(u*200))
      			if i%7==0 then u=u+1 end
 
-    		end
+    	end
 		--for n,b in cards do
 		--	print(n)
 		--end
@@ -107,9 +107,10 @@ function StateInventory:mousepressed(x,y,button)
 			elseif n == "options" then
 				state = Options.create()
 			elseif n == "quit" then
-				love.event.push("quit")
+				--love.event.push("quit")
 			elseif n == "testButton" then
-				love.event.push("quit")
+				--love.event.push("quit")
+				Gamestate.switch(StateExplore)
 			end
 		end
 	end

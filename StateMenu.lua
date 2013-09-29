@@ -38,7 +38,7 @@ function StateMenu:create()
 					instructions = Button.create("Instructions", 600, 500),
 					options = Button.create("Options", 600, 550),
 					quit = Button.create("Quit", 600, 750) ,
-					testButton = Button.create("Exit", 100,100) }
+					testButton = Button.create("Inventory", 100,100) }
 	return temp
 end
 
