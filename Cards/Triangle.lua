@@ -119,5 +119,7 @@ Triangle = Class{
 		StartEffect(map:getRealX(self.player.x) + 0.5 * map.grid.tileSize,
 		map:getRealY(self.player.y) + 0.5 * map.grid.tileSize, 
 		effect)
+
+		Sound:playEffect(EffectTypes.Hit)
 	end
 }

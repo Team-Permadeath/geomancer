@@ -37,5 +37,6 @@ Square = Class{
 	    StartEffect(map:getRealX(self.x) + 0.5*map.grid.tileSize, 
 	    map:getRealY(self.y) + 0.5 * map.grid.tileSize, 
 	    ParticleSystems["Fire"])
+		Sound:playEffect(EffectTypes.FireSpell)
 	end
 }

@@ -36,5 +36,6 @@ Circle = Class{
 	    	map:getRealX(self.x) + map.grid.tileSize / 2, 
 	    	map:getRealY(self.y) + map.grid.tileSize / 2, 
 		ParticleSystems["Water"])
+		Sound:playEffect(EffectTypes.WaterSpell)
 	end
 }

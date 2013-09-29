@@ -11,3 +11,7 @@ function StageGameOver:keyreleased(key)
         Gamestate.switch(StateMenu)
     end
 end
+
+function StageGameOver:enter()
+	Sound:playMusic(MusicTypes.GameOver)
+end
