@@ -88,9 +88,11 @@ BattleMap = Class{
             y = y
         })
     end,
-    reset = function (self)
-        self.registers = {}
+    resetHits = function (self)
         self.hits = {}
+    end,
+    resetRegisters = function (self)
+        self.registers = {}
     end,
     resolveDamage = function (self, x, y)
         for i, v in ipairs(self.registers) do

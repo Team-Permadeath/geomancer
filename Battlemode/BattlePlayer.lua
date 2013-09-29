@@ -5,6 +5,7 @@ require "Battlemode.BattleHealth"
 BattlePlayer = Class{
 	init = function (self, map, startX, startY)
 		self.map = map
+		self.type = "Player"
         self.x = startX
         self.y = startY
 		self.speed = 10
