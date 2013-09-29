@@ -95,6 +95,9 @@ TopFloorWorld = Class{
   		self.tiledMap:setLayerInvisible("npc")
   		self.rogerAwakeTimer = 5
   	end,
+  	isRogerAwake = function(self)
+  		return self.rogerAwake
+  	end,
 	loadMap = function(self)
 		local freeTiles = {}
 		for i = 0, 7 do
