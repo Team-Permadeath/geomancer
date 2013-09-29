@@ -25,7 +25,7 @@ function love.load()
 	player = Player(15, 15, TILE_SIZE, animSprite, 5, 5)
 	Gamestate.registerEvents()
 	Gamestate.switch(StateMenu)
-	cards = CardsRepository(5, 2, 2)
+	cards = CardsRepository(3, 3, 3)
 end
 
 function love.update(dt)
