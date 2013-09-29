@@ -10,7 +10,11 @@ require "Battlemode.BattleCards"
 require "Battlemode.BattleMovePlanner"
 require "Battlemode.BattleActionPlanner"
 require "Battlemode.BattleModeLabel"
+require "Enemies.HugeSlime"
 require "Enemies.Skeleton"
+require "Enemies.SkeletonMage"
+require "Enemies.SkeletonVerdande"
+require "Enemies.Slime"
 
 StateBattle = {}
 
@@ -40,7 +44,7 @@ function StateBattle:enter(previousState)
 	Sound:playEffect(EffectTypes.Transition)
 	Sound:playMusic(MusicTypes.Combat)
 
-    enemy = Skeleton()
+    enemy = SkeletonVerdande()
 
     map = BattleMap(gridStartX, gridStartY, gridFactor)
     player = BattlePlayer(map, math.random(4, 7), playerStartY)
