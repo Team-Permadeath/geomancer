@@ -49,9 +49,9 @@ function StateBattle:enter(previousState, monsterId)
         enemy = SkeletonVerdande()
     elseif monsterId == 22 then
         enemy = Skeleton()
-    elseif monsterId == 23 then
+    elseif monsterId == 23 or monsterId == 6 then
         enemy = HugeSlime()
-    elseif monsterId == 24 then
+    elseif monsterId == 24 or monsterId == 5 then
         enemy = Slime()
     end
 
