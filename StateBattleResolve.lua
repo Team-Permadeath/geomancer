@@ -1,6 +1,6 @@
 StateBattleResolve = {}
 
-function StateBattleResolve:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label)
+function StateBattleResolve:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label, helper)
     self.map = map
     self.map:reset()
     self.player = player
@@ -12,6 +12,7 @@ function StateBattleResolve:enter(previousState, map, player, enemy, cards, move
     self.label = label
     self.cards = cards
     self.cards:resolve()
+    self.helper = helper
 end
 
 function StateBattleResolve:draw()
@@ -23,14 +24,15 @@ function StateBattleResolve:draw()
     self.cards:drawResolve()
     self.map:drawResolve()
     self.label:draw("Outcome", 150)
+    self.helper:drawResolve()
 end
 
 function StateBattleResolve:keyreleased(key)
     if key == "return" then
         if (self.player:isDead()) then
-            Gamestate.switch(StageGameOver, self.player, self.enemy, self.label)
+            Gamestate.switch(StageGameOver)
         elseif (self.enemy:isDead()) then
-            Gamestate.switch(StateBattleVictory, self.player, self.enemy, self.label)
+            Gamestate.switch(StateBattleVictory, self.player, self.enemy, self.label, self.helper)
         else
             Gamestate.switch(StateBattleMove, 
                 self.map, 
@@ -39,7 +41,8 @@ function StateBattleResolve:keyreleased(key)
                 self.cards, 
                 self.movePlanner, 
                 self.actionPlanner, 
-                self.label)
+                self.label, 
+                self.helper)
         end
     end
 end

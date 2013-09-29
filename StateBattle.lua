@@ -11,6 +11,7 @@ require "Battlemode.BattleCards"
 require "Battlemode.BattleMovePlanner"
 require "Battlemode.BattleActionPlanner"
 require "Battlemode.BattleModeLabel"
+require "Battlemode.BattleHelper"
 require "Enemies.HugeSlime"
 require "Enemies.Skeleton"
 require "Enemies.SkeletonMage"
@@ -37,6 +38,7 @@ local actionPlanner
 local enemy
 local cards
 local label
+local helper
 
 -- an enemy for testing
 
@@ -63,6 +65,7 @@ function StateBattle:enter(previousState, monsterId)
     movePlanner = BattleMovePlanner(map, player)
     actionPlanner = BattleActionPlanner(map, player, cards)
     label = BattleModeLabel(map)
+    helper = BattleHelper(WINDOW_WIDTH - 489, WINDOW_HEIGHT - 200)
 
-    Gamestate.switch(StateBattleMove, map, player, enemy, cards, movePlanner, actionPlanner, label)
+    Gamestate.switch(StateBattleMove, map, player, enemy, cards, movePlanner, actionPlanner, label, helper)
 end
