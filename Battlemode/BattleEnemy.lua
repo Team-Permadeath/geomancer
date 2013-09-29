@@ -36,6 +36,10 @@ BattleEnemy = Class{
 		self.x = newPos.x
 		self.y = newPos.y
 		self.map:register(self, self.x, self.y)
+		local attacks = self.enemy:attack(self.player, self.x, self.y)
+		for i, v in ipairs(attacks) do
+			self.map:resolveDamage(v.x, v.y)
+		end
 	end,
 	takeDamage = function (self, damage)
 		self.enemy.health = self.enemy.health - damage
