@@ -11,6 +11,7 @@ Player = Class{
     self.tileSize = tileSize
     self.animSprite = animSprite
     self.image = love.graphics.newImage("Characters/main_char.png")
+    self.bigImage = love.graphics.newImage("Characters/big_size_chars-01.png")
     ------
     self.speed = speed
     self.health = health

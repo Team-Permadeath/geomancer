@@ -1,18 +1,20 @@
 StateBattleVictory = {}
 
-function StateBattleVictory:enter(previousState, player, enemy, label)
+function StateBattleVictory:enter(previousState, player, enemy, label, helper)
     self.player = player
     self.enemy = enemy
     self.label = label
+    self.helper = helper
 end
 
 function StateBattleVictory:draw()
     self.player:draw()
     self.enemy:drawDefeat()
     self.label:draw("Victory ^_^", 100)
+    self.helper:drawVictory()
 end
 
-function StateBattleVictory:keypressed(key)
+function StateBattleVictory:keyreleased(key)
     if key == "return" then
         Gamestate.switch(StateExplore)
     end

@@ -12,7 +12,7 @@ BattlePlayer = Class{
 	end,
 	draw = function (self)
 	    love.graphics.setColor(255, 255, 255)
-		love.graphics.draw(player.image, self.map.grid.tileSize, self.map.grid.tileSize, 0, 5)
+		love.graphics.draw(player.bigImage, self.map.grid.tileSize, self.map.grid.tileSize)
 		self.health:draw(player.health)
 	end,
 	drawDefeat = function (self)

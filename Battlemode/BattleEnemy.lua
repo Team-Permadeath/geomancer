@@ -14,12 +14,12 @@ BattleEnemy = Class{
 	end,
 	draw = function (self)
 		love.graphics.setColor(255, 255, 255)
-		love.graphics.draw(self.enemy.image, self.imagePosX, self.map.grid.tileSize, 0, 5)
+		love.graphics.draw(self.enemy.bigImage, self.imagePosX, self.map.grid.tileSize)
 		self.health:draw(self.enemy.health)
 	end,
 	drawDefeat = function (self)
 		love.graphics.setColor(0, 0, 0)
-		love.graphics.draw(self.enemy.image, self.imagePosX, self.map.grid.tileSize, 0, 5)
+		love.graphics.draw(self.enemy.bigImage, self.imagePosX, self.map.grid.tileSize)
 	end,
 	drawMove = function (self)
 		local pos = self.map:getPosition(self)

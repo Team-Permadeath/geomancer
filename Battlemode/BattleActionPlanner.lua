@@ -9,7 +9,7 @@ BattleActionPlanner = Class{
 		self.cards = cards
 		self.cards:enter(player)
 	end,
-	keypressed = function (self, key)
+	keyreleased = function (self, key)
 		if (key == "1") then
 			self.cards:selectCard(self.player, 1)
 		elseif (key == "2") then

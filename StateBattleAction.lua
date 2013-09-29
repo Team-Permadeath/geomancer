@@ -1,6 +1,6 @@
 StateBattleAction = {}
 
-function StateBattleAction:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label)
+function StateBattleAction:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label, helper)
     self.map = map
     self.player = player
     self.enemy = enemy
@@ -9,6 +9,7 @@ function StateBattleAction:enter(previousState, map, player, enemy, cards, moveP
     self.movePlanner = movePlanner
     self.actionPlanner = actionPlanner
     self.label = label
+    self.helper = helper
 end
 
 function StateBattleAction:draw()
@@ -20,12 +21,13 @@ function StateBattleAction:draw()
     self.cards:drawAction(self.map, self.player)
     --self.movePlanner:drawAction()
     self.label:draw("Choose a spell", 200)
+    self.helper:drawAction()
 end
 
-function StateBattleAction:keypressed(key)
-    self.actionPlanner:keypressed(key)
+function StateBattleAction:keyreleased(key)
+    self.actionPlanner:keyreleased(key)
     if key == "return" then
-        Gamestate.switch(StateBattleResolve, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label)
+        Gamestate.switch(StateBattleResolve, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label, self.helper)
     elseif key == "backspace" then
         local tmpX = self.movePlanner.x
         local tmpY = self.movePlanner.y
@@ -33,6 +35,6 @@ function StateBattleAction:keypressed(key)
         self.movePlanner.y = self.player.y
         self.player.x = tmpX
         self.player.y = tmpY
-        Gamestate.switch(StateBattleMove, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label)
+        Gamestate.switch(StateBattleMove, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label, self.helper)
     end
 end

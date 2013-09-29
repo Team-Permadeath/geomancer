@@ -47,9 +47,8 @@ function StateExplore:draw()
   player:draw()
   camera:detach()
   --love.graphics.draw(fogImg, 0, 0)
-  for n,b in pairs(state.button) do
-    if  n == "testButton" then b:draw() end
-  end
+  love.graphics.setColor(0, 0, 0)
+  state.button.inventory:draw()
   love.graphics.setColor(255,255,255) 
   --cards:draw(0, WINDOW_HEIGHT - 200)
   love.graphics.setColor(255,255,255) 
@@ -68,7 +67,7 @@ function StateExplore:mousepressed(x,y,button)
         state = Options.create()
       elseif n == "quit" then
         love.event.push("quit")
-      elseif n == "testButton" then
+      elseif n == "inventory" then
         Gamestate.switch(StateInventory)
       end
     end

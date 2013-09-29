@@ -1,6 +1,6 @@
 StateBattleMove = {}
 
-function StateBattleMove:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label)
+function StateBattleMove:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label, helper)
     self.map = map
     self.player = player
     self.enemy = enemy
@@ -8,6 +8,7 @@ function StateBattleMove:enter(previousState, map, player, enemy, cards, movePla
     self.movePlanner = movePlanner
     self.actionPlanner = actionPlanner
     self.label = label
+    self.helper = helper
 end
 
 function StateBattleMove:draw()
@@ -19,10 +20,11 @@ function StateBattleMove:draw()
     self.cards:drawMove()
     self.movePlanner:drawMove()
     self.label:draw("Make a move", 200)
+    self.helper:drawMove()
 end
 
-function StateBattleMove:keypressed(key)
-    self.movePlanner:keypressed(key)
+function StateBattleMove:keyreleased(key)
+    self.movePlanner:keyreleased(key)
     if key == "return" then
         local tmpX = self.movePlanner.x
         local tmpY = self.movePlanner.y
@@ -31,6 +33,6 @@ function StateBattleMove:keypressed(key)
         self.player.x = tmpX
         self.player.y = tmpY
         self.player:register()
-        Gamestate.switch(StateBattleAction, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label)
+        Gamestate.switch(StateBattleAction, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label, self.helper)
     end
 end
