@@ -5,7 +5,7 @@ function StateBattleResolve:enter(previousState, battleMap, battlePlayer, battle
     self.battlePlayer = battlePlayer
     self.battleEnemy = battleEnemy
     self.battleCards = battleCards
-    self.battleCards:enter(battlePlayer)
+    self.battleCards:resolve()
     self.battleMovePlanner = battleMovePlanner
     self.battleActionPlanner = battleActionPlanner
     self.battleModeLabel = battleModeLabel
@@ -16,7 +16,7 @@ function StateBattleResolve:draw()
     self.battlePlayer:draw()
     self.battlePlayer:drawAction()
     self.battleEnemy:draw()
-    self.battleCards:drawMove(self.battleMap, self.battlePlayer)
+    self.battleCards:drawResolve()
     self.battleModeLabel:draw("Outcome", 150)
 end
 

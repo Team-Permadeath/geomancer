@@ -43,6 +43,21 @@ BattleCards = Class{
 	    	love.graphics.draw(self.cards[i].image, self.x + (i - 1) * self.dimensions.slot + self.dimensions.card.x, self.y + self.dimensions.card.y)
 	    end
 	end,
+	drawResolve = function (self)
+	    love.graphics.setColor(100, 100, 100)
+	    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+	    for i=1, numberOfCards do
+	    	love.graphics.setColor(100, 100, 100)
+	    	if (i == self.selected) then
+		    	love.graphics.setColor(255, 255, 255)
+	    	end
+	    	love.graphics.draw(self.cards[i].image, self.x + (i - 1) * self.dimensions.slot + self.dimensions.card.x, self.y + self.dimensions.card.y)
+	    end
+	end,
+	resolve = function (self)
+		local newCard = cards:drawCards(1)[1]
+		self.cards[self.selected] = newCard
+	end,
 	selectCard = function (self, player, selected)
 		local curX = self.cards[self.selected].x
 		local curY = self.cards[self.selected].y

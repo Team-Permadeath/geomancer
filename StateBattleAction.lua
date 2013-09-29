@@ -26,7 +26,7 @@ end
 function StateBattleAction:keypressed(key)
     self.battleActionPlanner:keypressed(key)
     if key == "return" then
-        Gamestate.switch(StateBattleExecute, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
+        Gamestate.switch(StateBattleResolve, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
     elseif key == "backspace" then
         local tmpX = self.battleMovePlanner.x
         local tmpY = self.battleMovePlanner.y
@@ -34,6 +34,6 @@ function StateBattleAction:keypressed(key)
         self.battleMovePlanner.y = self.battlePlayer.y
         self.battlePlayer.x = tmpX
         self.battlePlayer.y = tmpY
-        Gamestate.switch(StatebattleResolve, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
+        Gamestate.switch(StateBattleMove, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
     end
 end
