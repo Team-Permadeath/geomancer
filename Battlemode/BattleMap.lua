@@ -16,6 +16,7 @@ BattleMap = Class{
 	        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 	        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }	
 	    }
+        self.max = 10
 	    local gridTileSize = TILE_SIZE * gridFactor
 	    self.grid = {
 	    	x = startX - gridTileSize,
@@ -94,5 +95,16 @@ BattleMap = Class{
                 v.unit:takeDamage(1)
             end
         end
+    end,
+    isAvailable = function (self, x, y)
+        if x < 1 or x >= self.max or y < 1 or y >= self.max then
+            return false
+        end
+        for i, v in ipairs(self.registers) do
+            if (v.x == x and v.y == y) then
+                return false
+            end
+        end
+        return true
     end
 }

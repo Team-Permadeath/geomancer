@@ -32,6 +32,9 @@ BattleEnemy = Class{
 	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
 	end,
 	resolve = function (self)
+		local newPos = self.enemy:move(self.map, self.player, self.x, self.y)
+		self.x = newPos.x
+		self.y = newPos.y
 		self.map:register(self, self.x, self.y)
 	end,
 	takeDamage = function (self, damage)
