@@ -109,10 +109,9 @@ function movePlayer(dx, dy)
         Gamestate.switch(StateBattle, ifiWorld:getMonsterId(newPlayerX, newPlayerY))
       end
       -- check for nut
-      local pickableLayerId = ifiWorld:getLayerId("pickable")
-      local pickableId = ifiWorld:getTileId(newPlayerX, newPlayerY, pickableLayerId)
-      if pickableId == IFI_NUT_TILE then
-        ifiWorld:setTileId(newPlayerX, newPlayerY, pickableLayerId, IFI_EMPTY_TILE)
+      local nutId = ifiWorld:getNutId(newPlayerX, newPlayerY)
+      if 0 < nutId then
+        ifiWorld:pickupNut(nutId)
         local newCollectedNuts = player:getCollectedNuts() + 1
         player:setCollectedNuts(newCollectedNuts)
       end

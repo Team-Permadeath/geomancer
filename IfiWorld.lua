@@ -25,6 +25,21 @@ IfiWorld = Class{
 		table.insert(self.doors, {{79, 3}, {79, 4}, {79, 5}, {79, 6}, {79, 7}, {79, 8}})
 		-- init tiled map
 		self:loadMap()
+		-- init nuts
+		local pickableLayerId = self.tiledMap:getLayerId("pickable")
+		local nuts = {}
+		for x = 1, self.tiledMap:getWidth() do
+			for y = 1, self.tiledMap:getHeight() do
+				local tileId = self.tiledMap:getTileId(x, y, pickableLayerId)
+				if tileId == IFI_NUT_TILE then
+					table.insert(nuts, {x, y})
+				end
+			end
+		end
+		-- there should be 5 nuts
+		self.collectedNuts = {false, false, false, false, false}
+		self.nuts = nuts
+		self.nutImg = love.graphics.newImage("Tiles/decorative/nut-10.png")
 		-- init monsters
 		local monstersImg = {}
 		monstersImg[IFI_SKELETON_SWORD] = love.graphics.newImage("Characters/monsters/monster_movement1-35.png")
@@ -107,6 +122,19 @@ IfiWorld = Class{
 			self.tiledMap:setTileId(v[1], v[2], templateLayerId, IFI_BACKGROUND_TILE)
 		end
 	end,
+	getNutId = function(self, x, y)
+		for id = 1, #self.nuts do
+			if self.nuts[id][1] == x and self.nuts[id][2] == y then
+				if not self.collectedNuts[id] then
+					return id
+				end
+			end
+		end
+		return 0
+	end,
+	pickupNut = function(self, id)
+		self.collectedNuts[id] = true
+	end,
 	isElevator = function(self, x, y)
 		if x == 91 or x == 92 then
 			if y == 11 or y == 12 then
@@ -140,6 +168,7 @@ IfiWorld = Class{
 		freeTiles[IFI_WHITEBOARD2] = true
 		local tiledMap = TiledMap("Maps/ifi.tmx", TILE_SIZE, freeTiles)
 		tiledMap:setLayerInvisible("monsters")
+		tiledMap:setLayerInvisible("pickable")
 		self.tiledMap = tiledMap
 		-- update doors
 		for id = 1, 3 do
@@ -167,8 +196,15 @@ IfiWorld = Class{
 	end,
 	draw = function(self, cameraX, cameraY)
 		self.tiledMap:draw(cameraX, cameraY)
+		-- draw monsters
 		for i = 1, #self.monsters do
 			self.monsters[i]:draw()
+		end
+		-- draw nuts
+		for id = 1, #self.nuts do
+			if not self.collectedNuts[id] then
+				love.graphics.draw(self.nutImg, self.nuts[id][1] * self.tileSize, self.nuts[id][2] * self.tileSize)
+			end
 		end
 		if 0 < self.doorBubbleTimer then
 			love.graphics.draw(self.bubbles.door, cameraX - 140, cameraY - 150)
