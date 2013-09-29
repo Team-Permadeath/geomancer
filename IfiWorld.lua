@@ -18,7 +18,7 @@ IfiWorld = Class{
 	init = function(self)
 		-- init doors
 		self.openDoors = {false, false, false}
-		self.doorKills = {6, 11, 18}
+		self.doorKills = {3, 7, 10}
 		self.doors = {}
 		table.insert(self.doors, {{32, 5}, {32, 6}, {32, 7}, {32, 8}})
 		table.insert(self.doors, {{52, 3}, {52, 4}, {52, 5}, {52, 6}, {52, 7}, {52, 8}})
