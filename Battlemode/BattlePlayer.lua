@@ -11,6 +11,7 @@ BattlePlayer = Class{
 		self.health = BattleHealth(self.map.grid.tileSize, 440)
 	end,
 	draw = function (self)
+	    love.graphics.setColor(255, 255, 255)
 		love.graphics.draw(player.image, self.map.grid.tileSize, self.map.grid.tileSize, 0, 5)
 		self.health:draw(player.health)
 	end,

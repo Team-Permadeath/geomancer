@@ -3,7 +3,7 @@ Class = require "Lib.hump.class"
 Skeleton = Class {
 	init = function (self)
 		self.image = love.graphics.newImage("Characters/monsters/monster-27.png")
-		self.health = 1
+		self.health = 2
 	end,
 	move = function (self, map, player, x, y)
 		local all = {{x, y}, {x, y + 1}, {x + 1, y + 1}, {x + 1, y}, {x + 1, y - 1}, {x, y - 1}, {x - 1, y - 1}, {x - 1, y}, {x - 1, y + 1}}

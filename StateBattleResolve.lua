@@ -2,6 +2,7 @@ StateBattleResolve = {}
 
 function StateBattleResolve:enter(previousState, map, player, enemy, cards, movePlanner, actionPlanner, label)
     self.map = map
+    self.map:reset()
     self.player = player
     self.enemy = enemy
     self.enemy:resolve()
@@ -11,7 +12,6 @@ function StateBattleResolve:enter(previousState, map, player, enemy, cards, move
     self.label = label
     self.cards = cards
     self.cards:resolve()
-    self.map:clearRegister()
 end
 
 function StateBattleResolve:draw()
@@ -21,6 +21,7 @@ function StateBattleResolve:draw()
     self.enemy:draw()
     self.enemy:drawResolve()
     self.cards:drawResolve()
+    self.map:drawResolve()
     self.label:draw("Outcome", 150)
 end
 

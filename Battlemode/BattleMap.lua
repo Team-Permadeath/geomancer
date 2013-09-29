@@ -24,6 +24,7 @@ BattleMap = Class{
 	    	tileSize = gridTileSize
 		}
         self.registers = {}
+        self.hits = {}
 	end,
     draw = function (self)
         local gridPosX
@@ -64,6 +65,12 @@ BattleMap = Class{
             end
         end
     end,
+    drawResolve = function (self)
+        for i, v in ipairs(self.hits) do
+            love.graphics.setColor(255, 0, 0)
+            love.graphics.circle("line", self:getRealX(v.x + 0.5), self:getRealY(v.y + 0.5), 0.5 * self.grid.tileSize, 10)
+        end
+    end,
     test = function (self, x, y)
         return self.map[y][x]
     end,
@@ -86,13 +93,15 @@ BattleMap = Class{
             y = y
         })
     end,
-    clearRegister = function (self)
+    reset = function (self)
         self.registers = {}
+        self.hits = {}
     end,
     resolveDamage = function (self, x, y)
         for i, v in ipairs(self.registers) do
             if (v.x == x and v.y == y) then
                 v.unit:takeDamage(1)
+                table.insert(self.hits, v)
             end
         end
     end,
