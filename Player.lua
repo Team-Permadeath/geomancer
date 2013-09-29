@@ -15,7 +15,10 @@ Player = Class{
     self.health = health
     self.killedMonsters = 0
     self.collectedNuts = 0
-    self.playerCards = { Circle(), Circle(), Circle(), Circle() ,Square(), Circle(), Circle(), Circle() ,Square(), Circle(), Circle(), Circle() ,Square()}
+    self.playerCards = { 
+                      Circle(), Circle(), Circle(), Circle() ,Square(), Circle(), Circle(), 
+                      Circle() ,Square(), Circle(), Circle(), Circle() ,Square(), Triangle(),
+                      Triangle(), Triangle(), Triangle(), Triangle(), Triangle(), Triangle(), Triangle()}
     ------
     self.gridPixelX = x * tileSize
     self.gridPixelY = y * tileSize
