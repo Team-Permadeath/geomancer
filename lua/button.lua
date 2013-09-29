@@ -27,7 +27,7 @@ end
 
 function Button:draw()
 	
-	love.graphics.setFont(font["large"])
+	--love.graphics.setFont(font["large"])
 	if self.hover then love.graphics.setColor(unpack(color["main"]))
 	else love.graphics.setColor(unpack(color["text"])) 
 	end

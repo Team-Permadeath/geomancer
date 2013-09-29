@@ -25,10 +25,10 @@ function StateBattleResolve:draw()
     self.label:draw("Outcome", 150)
 end
 
-function StateBattleResolve:keypressed(key)
+function StateBattleResolve:keyreleased(key)
     if key == "return" then
         if (self.player:isDead()) then
-            Gamestate.switch(StateBattleDefeat, self.player, self.enemy, self.label)
+            Gamestate.switch(StageGameOver, self.player, self.enemy, self.label)
         elseif (self.enemy:isDead()) then
             Gamestate.switch(StateBattleVictory, self.player, self.enemy, self.label)
         else

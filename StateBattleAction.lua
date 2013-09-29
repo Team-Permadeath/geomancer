@@ -22,8 +22,8 @@ function StateBattleAction:draw()
     self.label:draw("Choose a spell", 200)
 end
 
-function StateBattleAction:keypressed(key)
-    self.actionPlanner:keypressed(key)
+function StateBattleAction:keyreleased(key)
+    self.actionPlanner:keyreleased(key)
     if key == "return" then
         Gamestate.switch(StateBattleResolve, self.map, self.player, self.enemy, self.cards, self.movePlanner, self.actionPlanner, self.label)
     elseif key == "backspace" then

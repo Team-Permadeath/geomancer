@@ -12,7 +12,7 @@ function StateBattleVictory:draw()
     self.label:draw("Victory ^_^", 100)
 end
 
-function StateBattleVictory:keypressed(key)
+function StateBattleVictory:keyreleased(key)
     if key == "return" then
         Gamestate.switch(StateExplore)
     end

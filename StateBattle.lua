@@ -1,8 +1,9 @@
 require "StateBattleAction"
-require "StateBattleDefeat"
 require "StateBattleMove"
 require "StateBattleResolve"
 require "StateBattleVictory"
+require "StateGameOver"
+
 require "Battlemode.BattleMap"
 require "Battlemode.BattlePlayer"
 require "Battlemode.BattleEnemy"

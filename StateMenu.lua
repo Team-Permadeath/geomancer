@@ -19,9 +19,8 @@ function StateMenu:init()
 end
 
 function StateMenu:enter()
-	if (started) then
+	if started then
 		Sound:playEffect(EffectTypes.Transition)
-		started = true
 	end
 	Sound:playMusic(MusicTypes.Menu)
 

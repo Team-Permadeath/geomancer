@@ -17,7 +17,7 @@ BattleMovePlanner = Class{
 	    love.graphics.setColor(255, 255, 255)
 	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
 	end,
-	keypressed = function (self, key)
+	keyreleased = function (self, key)
 	    if key == "up" or key == "w" then
 	        move(self, 0, -1)
 	    elseif key == "down" or key == "s" then

@@ -21,8 +21,8 @@ function StateBattleMove:draw()
     self.label:draw("Make a move", 200)
 end
 
-function StateBattleMove:keypressed(key)
-    self.movePlanner:keypressed(key)
+function StateBattleMove:keyreleased(key)
+    self.movePlanner:keyreleased(key)
     if key == "return" then
         local tmpX = self.movePlanner.x
         local tmpY = self.movePlanner.y
