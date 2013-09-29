@@ -14,7 +14,7 @@ BattlePlayer = Class{
 	end,
 	drawMove = function (self)
 		local pos = self.map:getPosition(self)
-	    love.graphics.setColor(200, 200, 200)
+	    love.graphics.setColor(125, 125, 125)
 	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
 	end,
 	move = function (self, x, y)

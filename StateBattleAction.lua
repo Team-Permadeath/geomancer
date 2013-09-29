@@ -18,7 +18,7 @@ function StateBattleAction:draw()
     self.battlePlayer:drawAction()
     self.battleEnemy:draw()
     self.battleCards:drawAction(self.battleMap, self.battlePlayer)
-    self.battleMovePlanner:drawAction()
+    --self.battleMovePlanner:drawAction()
     self.battleModeLabel:draw("Choose a spell", 200)
 end
 
