@@ -6,6 +6,7 @@ Triangle = Class{
 		self.x = 0
 		self.y = 0
 		self.i = 3
+		self.type = "Triangle"
 	end,
 	drawAction = function (self, map, player)
 		local diffX = self.x - player.x
