@@ -8,6 +8,7 @@ require "Battlemode.BattleCards"
 require "Battlemode.BattleMovePlanner"
 require "Battlemode.BattleActionPlanner"
 require "Battlemode.BattleModeLabel"
+require "Enemies.Skeleton"
 
 StateBattle = {}
 
@@ -32,13 +33,16 @@ local battleEnemy
 local battleCards
 local battleModeLabel
 
+-- an enemy for testing
+local enemy = Skeleton()
+
 function StateBattle:enter(previousState)
 	Sound:playEffect(EffectTypes.Transition)
 	Sound:playMusic(MusicTypes.Combat)
 
     battleMap = BattleMap(gridStartX, gridStartY, gridFactor)
     battlePlayer = BattlePlayer(battleMap, playerStartX, playerStartY)
-    battleEnemy = BattleEnemy(Nil, battlePlayer, battleMap, enemyStartX, enemyStartY)
+    battleEnemy = BattleEnemy(enemy, battlePlayer, battleMap, enemyStartX, enemyStartY)
     battleCards = BattleCards(cardsStartX, cardsStartY, cardsWidth, cardsHeight)
     battleMovePlanner = BattleMovePlanner(battleMap, battlePlayer)
     battleActionPlanner = BattleActionPlanner(battleMap, battlePlayer, battleCards)
