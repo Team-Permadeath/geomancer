@@ -1,7 +1,7 @@
 
 StateInventory = {}
 function StateInventory:init()
---self.cardsS=
+--self.invCardsS=
 
 end
 
@@ -11,7 +11,7 @@ function StateInventory:enter()
 end
 
 function StateInventory:create()
-	local cards=player:getCards()
+	 invCards=player:getCards()
 	local temp = {}
 	setmetatable(temp, StateInventory)
 	temp.button = {	testButton = Button.create("Exit", 100,100)--,
@@ -22,7 +22,7 @@ function StateInventory:create()
 
 	--print("DERP2")
 	u=0
-	for i, v in ipairs(cards) do
+	for i, v in ipairs(invCards) do
 		local tempp = {}
 		--setmetatable(tempp, StateInventory)
      	tempp = Button.create("Rmv",350+ 110*((i-1)%7), 275+(u*200), i)
@@ -61,7 +61,7 @@ end
 
 
 function StateInventory:draw()
-		--nrcards=ifiWorld:getPlayerAmountCards()
+		--nrinvCards=ifiWorld:getPlayerAmountinvCards()
 		--draw buttons
 		for n,b in pairs(invButtons.button) do
 		b:draw()
@@ -70,20 +70,20 @@ function StateInventory:draw()
 
 
 
-		--draw cards
-		cards=player:getCards()
+		--draw invCards
+		invCards=player:getCards()
 	
 		u=0
-		for i, v in ipairs(cards) do				
+		for i, v in ipairs(invCards) do				
      			love.graphics.draw(v.image, 300+ 110*((i-1)%7), 100+(u*200))
      			if i%7==0 then u=u+1 end
 
     	end
-		--for n,b in cards do
+		--for n,b in invCards do
 		--	print(n)
 		--end
 
-	--for n,b in cards do
+	--for n,b in invCards do
 	--
 	--end
 	
@@ -103,7 +103,7 @@ function StateInventory:mousepressed(x,y,button)
 				if b.text == "Rmv" then
 				--print(" ->")--love.event.push("quit")
 					print(" ->" , b.cardIndex)--love.event.push("quit")
-					--if cards.size()>
+					--if invCards.size()>
 					player:rmvCard(b.cardIndex)
 
 					Gamestate.switch(StateInventory)
