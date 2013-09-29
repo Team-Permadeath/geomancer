@@ -21,6 +21,13 @@ Circle = Class{
 	move = function (self, player, x, y)
 	end,
 	resolveDamage = function (self, map)
-		print("DAMAGE CIRCLE")
+		map:resolveDamage(self.x - 1, self.y)
+		map:resolveDamage(self.x - 1, self.y - 1)
+		map:resolveDamage(self.x, self.y - 1)
+		map:resolveDamage(self.x + 1, self.y - 1)
+		map:resolveDamage(self.x + 1, self.y)
+		map:resolveDamage(self.x + 1, self.y + 1)
+		map:resolveDamage(self.x, self.y + 1)
+		map:resolveDamage(self.x - 1, self.y + 1)
 	end
 }

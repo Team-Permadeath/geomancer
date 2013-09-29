@@ -5,8 +5,8 @@ require "Battlemode.BattleHealth"
 BattlePlayer = Class{
 	init = function (self, map, startX, startY)
 		self.map = map
-        self.x = startX + 1
-        self.y = startY + 1
+        self.x = startX
+        self.y = startY
 		self.speed = 10
 		self.health = BattleHealth(self.map.grid.tileSize, 440)
 	end,

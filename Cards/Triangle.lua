@@ -82,6 +82,16 @@ Triangle = Class{
 		end
 	end,
 	resolveDamage = function (self, map)
-		print("DAMAGE TRIANGLE")
+		local diffX = self.x - player.x
+		local diffY = self.y - player.y
+		if (diffX ~= 0) then
+			map:resolveDamage(self.x, self.y - 1)
+			map:resolveDamage(self.x, self.y)
+			map:resolveDamage(self.x, self.y + 1)
+		elseif(diffY ~= 0) then
+			map:resolveDamage(self.x - 1, self.y)
+			map:resolveDamage(self.x, self.y)
+			map:resolveDamage(self.x + 1, self.y)
+		end
 	end
 }
