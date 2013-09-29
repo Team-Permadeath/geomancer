@@ -43,6 +43,15 @@ CardsRepository = Class{
 		local card = cards[cardType]()
 		self.deck[card.i] = self.deck[card.i] + 1
 		self.max[card.i] = self.max[card.i] + 1 
+	end,
+	getAllCards = function (self)
+		local a = {}
+		for i, v in ipairs(self.max) do
+			for j = 1, v do
+				table.insert(a, self.card[i]())
+			end
+		end
+		return a
 	end
 }
 
