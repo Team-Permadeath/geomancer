@@ -157,6 +157,13 @@ function movePlayer(dx, dy)
           player:teleportToPos(90, 11)
         end
         worlds[activeWorld]:loadMap()
+      elseif topFloorWorld:isRoger(newPlayerX, newPlayerY) then
+        -- roger interaction
+        if player:getCollectedNuts() == 5 then
+
+        else
+          topFloorWorld:setRogerBubbleTimer(5)
+        end
       end
     end
   end
