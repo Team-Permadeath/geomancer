@@ -4,18 +4,15 @@ BattleMovePlanner = Class{
 	init = function (self, map, player)
 		self.map = map
 		self.player = player
-		self.x = player.x
-		self.y = player.y
 	end,
-	drawAction = function (self)
-		local pos = self.map:getPosition(self)
-	    love.graphics.setColor(200, 200, 200)
-	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
+	enter = function (self) 
+		self.x = self.player.x
+		self.y = self.player.y
 	end,
 	drawMove = function (self)
 		local pos = self.map:getPosition(self)
 	    love.graphics.setColor(255, 255, 255)
-	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
+	    love.graphics.draw(player.image, pos.x, pos.y, 0, self.map.grid.tileSize / player.imageSize)
 	end,
 	keyreleased = function (self, key)
 	    if key == "up" or key == "w" then

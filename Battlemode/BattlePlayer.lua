@@ -22,12 +22,12 @@ BattlePlayer = Class{
 	drawAction = function (self)
 		local pos = self.map:getPosition(self)
 	    love.graphics.setColor(255, 255, 255)
-	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
+	    love.graphics.draw(player.image, pos.x, pos.y, 0, self.map.grid.tileSize / player.imageSize)
 	end,
 	drawMove = function (self)
 		local pos = self.map:getPosition(self)
 	    love.graphics.setColor(125, 125, 125)
-	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
+	    love.graphics.draw(player.image, pos.x, pos.y, 0, self.map.grid.tileSize / player.imageSize)
 	end,
 	move = function (self, x, y)
 		local testX = self.x + x
