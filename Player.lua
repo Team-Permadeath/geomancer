@@ -32,7 +32,12 @@ Player = Class{
   --  return self.playerCards:size()
  -- end,
   getCards = function(self)
+  ---org
     return self.playerCards
+    --new
+    --self.playerCards=cards:getAllCards()
+    --return self.playerCards
+
   end,
   rmvCard = function(self,index)
     table.remove(self.playerCards, index)
