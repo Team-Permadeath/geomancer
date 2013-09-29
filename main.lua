@@ -16,6 +16,7 @@ globalFontSmall = love.graphics.newFont(globalFontFile, 20)
 -- game states
 require "StateMenu"
 require "StateExplore"
+require "StateCredits"
 require "StateBattle"
 require "StateInventory"
 -- cards
