@@ -11,7 +11,7 @@ function StateInventory:enter()
 end
 
 function StateInventory:create()
-	cards=player:getCards()
+	local cards=player:getCards()
 	local temp = {}
 	setmetatable(temp, StateInventory)
 	temp.button = {	testButton = Button.create("Exit", 100,100)--,
@@ -103,8 +103,10 @@ function StateInventory:mousepressed(x,y,button)
 				if b.text == "Rmv" then
 				--print(" ->")--love.event.push("quit")
 					print(" ->" , b.cardIndex)--love.event.push("quit")
+					--if cards.size()>
 					player:rmvCard(b.cardIndex)
-					Gamestate.switch(StateExplore)
+
+					Gamestate.switch(StateInventory)
 				end
 
 			if b.text == "Exit" then
