@@ -9,7 +9,7 @@ end
 function StateBattleDefeat:draw()
     self.player:drawDefeat()
     self.enemy:draw()
-    self.label:draw("You were defeated =(", 200)
+    self.label:draw("You were defeated =(", 300)
 end
 
 function StateBattleDefeat:keypressed(key)
