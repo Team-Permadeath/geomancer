@@ -3,38 +3,79 @@ StateInventory = {}
 function StateInventory:init()
 --self.cardsS=
 
-
 end
 
 function StateInventory:enter()
+	invButtons=StateInventory:create()
 
-	
 end
-	
+
+function StateInventory:create()
+	cards=player:getCards()
+	local temp = {}
+	setmetatable(temp, StateInventory)
+	temp.button = {	testButton = Button.create("Exit", 100,100)--,
+					--test2 = Button.create("Remove", 500,500) 
+				}
+	--test3 = Button.create("Remove", 500,600)
+	--table.insert(temp.button,test3)
+
+	print("DERP2")
+	u=0
+	for i, v in ipairs(cards) do
+     	tempp=Button.create("Rmv",350+ 110*(i%7), 275+(u*200))
+     	table.insert(temp.button, tempp)
+     	--love.graphics.draw(v.image, 300+ 110*(i%7), 300+(u*200))
+     	print("DERP")
+     	if i%7==0 then u=u+1 end
+    end	
+
+
+
+
+		--temp.button
+	return temp
+end
+
+
+function StateInventory:addButton(posx, posy)
+	local temp = {}
+	setmetatable(temp, StateInventory)
+	--temp.button = {	
+	tempButton = Button.create("Remove", posx,posy) 
+	--}
+	return tempButton
+end
+
 
 	--init stuff for buttons
 
-
-
 function StateInventory.update(dt)
 		
-	for n,b in pairs(state.button) do
+	for n,b in pairs(invButtons.button) do
 		b:update(dt)
 	end
 end
 
+
 function StateInventory:draw()
 		--nrcards=ifiWorld:getPlayerAmountCards()
-		cards=ifiWorld:getPlayerCards()
-		if cards == nil then
-			print("nil")
-			else
-				print("not nil")
+		--draw buttons
+		for n,b in pairs(invButtons.button) do
+		b:draw()
 		end
+		love.graphics.setColor(255, 255, 255)
+
+
+
+		--draw cards
+		cards=player:getCards()
+	
 		u=0
-		for i, v in ipairs(cards) do
-     			love.graphics.draw(v.image, 300+ 110*(i%7), 300+(u*200))
-     			if i%7==7 then u=u+1 end
+		for i, v in ipairs(cards) do				
+     			love.graphics.draw(v.image, 300+ 110*((i-1)%7), 100+(u*200))
+     			if i%7==0 then u=u+1 end
+
     		end
 		--for n,b in cards do
 		--	print(n)
@@ -43,9 +84,7 @@ function StateInventory:draw()
 	--for n,b in cards do
 	--
 	--end
-	for n,b in pairs(state.button) do
-		b:draw()
-	end
+	
 end
 
 function StateInventory:keyreleased(key, unicode)
