@@ -9,12 +9,13 @@ BattlePlayer = Class{
         self.x = startX
         self.y = startY
 		self.speed = 10
-		self.health = BattleHealth(self.map.grid.tileSize, 440)
+		self.health = player.health
+		self.healthBar = BattleHealth(self.map.grid.tileSize, 440)
 	end,
 	draw = function (self)
 	    love.graphics.setColor(255, 255, 255)
 		love.graphics.draw(player.bigImage, self.map.grid.tileSize, self.map.grid.tileSize)
-		self.health:draw(player.health)
+		self.healthBar:draw(self.health)
 	end,
 	drawDefeat = function (self)
 		love.graphics.setColor(0, 0, 0)
@@ -46,7 +47,7 @@ BattlePlayer = Class{
 		self.map:register(self, self.x, self.y)
 	end,
 	takeDamage = function (self, damage)
-		player.health = player.health - damage
+		self.health = self.health - damage
 	end,
 	isDead = function (self)
 		return player:isDead()
