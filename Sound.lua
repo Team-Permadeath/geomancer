@@ -118,7 +118,7 @@ SoundSystem = Class {
 			self.music[tmp][-1] = 0
 			self.playing = nil
 			self.prevplayingtype = -1
-			self:playmusic(tmp)
+			self:playMusic(tmp)
 		end
 	end
 }
