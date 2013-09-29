@@ -38,6 +38,7 @@ end
 
 function StateCredits:draw()
 	love.graphics.setColor(255, 255, 255)
+	love.graphics.setBackgroundColor(0, 0, 0)
 	print("WTF")
 
 	love.graphics.draw(monster1, 50, y+30)
