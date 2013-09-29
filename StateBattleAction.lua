@@ -15,6 +15,7 @@ end
 
 function StateBattleAction:draw()
     self.battleMap:draw()
+    self.battlePlayer:draw()
     self.battlePlayer:drawAction()
     self.battleEnemy:draw()
     self.battleCards:drawAction(self.battleMap, self.battlePlayer)
@@ -33,6 +34,6 @@ function StateBattleAction:keypressed(key)
         self.battleMovePlanner.y = self.battlePlayer.y
         self.battlePlayer.x = tmpX
         self.battlePlayer.y = tmpY
-        Gamestate.switch(StateBattleMove, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
+        Gamestate.switch(StatebattleResolve, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
     end
 end

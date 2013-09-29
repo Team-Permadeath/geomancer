@@ -1,11 +1,18 @@
 Class = require "Lib.hump.class"
 
+require "Battlemode.BattleHealth"
+
 BattlePlayer = Class{
 	init = function (self, map, startX, startY)
 		self.map = map
         self.x = startX + 1
         self.y = startY + 1
 		self.speed = 10
+		self.health = BattleHealth(self.map.grid.tileSize, 440)
+	end,
+	draw = function (self)
+		love.graphics.draw(player.image, self.map.grid.tileSize, self.map.grid.tileSize, 0, 5)
+		self.health:draw(5)
 	end,
 	drawAction = function (self)
 		local pos = self.map:getPosition(self)

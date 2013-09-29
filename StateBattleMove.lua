@@ -14,6 +14,7 @@ end
 
 function StateBattleMove:draw()
     self.battleMap:draw()
+    self.battlePlayer:draw()
     self.battlePlayer:drawMove()
     self.battleEnemy:draw()
     self.battleCards:drawMove()
