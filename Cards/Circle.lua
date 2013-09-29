@@ -19,5 +19,8 @@ Circle = Class{
 		self.y = player.y
 	end,
 	move = function (self, player, x, y)
+	end,
+	resolveDamage = function (self, map)
+		print("DAMAGE CIRCLE")
 	end
 }

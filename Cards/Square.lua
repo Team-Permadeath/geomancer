@@ -29,5 +29,8 @@ Square = Class{
 		if (math.abs(player.y - y) < 3) then
 			self.y = y
 		end
+	end,
+	resolveDamage = function (self, map)
+		map:resolveDamage(self.x, self.y)
 	end
 }

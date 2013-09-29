@@ -9,10 +9,6 @@ BattleActionPlanner = Class{
 		self.cards = cards
 		self.cards:enter(player)
 	end,
-	drawAction = function (self)
-	end,
-	drawMove = function (self)
-	end,
 	keypressed = function (self, key)
 		if (key == "1") then
 			self.cards:selectCard(self.player, 1)
@@ -33,5 +29,8 @@ BattleActionPlanner = Class{
 		elseif (key == "down" or key == "s") then
 			self.cards:move(self.player, 0, 1)
 		end
+	end,
+	resolve = function (self)
+		self.cards:resolveDamage(self.map)
 	end
 }

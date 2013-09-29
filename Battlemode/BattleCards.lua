@@ -58,6 +58,9 @@ BattleCards = Class{
 		local newCard = cards:drawCards(1)[1]
 		self.cards[self.selected] = newCard
 	end,
+	resolveDamage = function (self, map)
+		self.cards[self.selected]:resolveDamage(map)
+	end,
 	selectCard = function (self, player, selected)
 		local curX = self.cards[self.selected].x
 		local curY = self.cards[self.selected].y

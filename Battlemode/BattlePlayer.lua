@@ -35,5 +35,11 @@ BattlePlayer = Class{
 	update = function (self, dt)
 		--self.x = (self.x - (self.x - self.map.grid.x)) * self.speed * dt;
 		--self.y = (self.y - (self.y - self.map.grid.y)) * self.speed * dt;
+	end,
+	register = function (self)
+		self.map:register(self, self.x, self.y)
+	end,
+	takeDamage = function (self, damage)
+		player.health = player.health - damage
 	end
 }

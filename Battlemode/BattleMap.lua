@@ -22,6 +22,7 @@ BattleMap = Class{
 	    	y = startY - gridTileSize,
 	    	tileSize = gridTileSize
 		}
+        self.registers = {}
 	end,
     draw = function (self)
         local gridPosX
@@ -76,5 +77,22 @@ BattleMap = Class{
     end,
     getRealY = function (self, y)
         return self.grid.y + y * self.grid.tileSize
+    end,
+    register = function (self, unit, x, y)
+        table.insert(self.registers, {
+            unit = unit,
+            x = x,
+            y = y
+        })
+    end,
+    clearRegister = function (self)
+        self.registers = {}
+    end,
+    resolveDamage = function (self, x, y)
+        for i, v in ipairs(self.registers) do
+            if (v.x == x and v.y == y) then
+                v.unit:takeDamage(1)
+            end
+        end
     end
 }

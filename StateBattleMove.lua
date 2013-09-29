@@ -17,6 +17,7 @@ function StateBattleMove:draw()
     self.battlePlayer:draw()
     self.battlePlayer:drawMove()
     self.battleEnemy:draw()
+    self.battleEnemy:drawMove()
     self.battleCards:drawMove()
     self.battleMovePlanner:drawMove()
     self.battleModeLabel:draw("Make a move", 200)
@@ -31,6 +32,7 @@ function StateBattleMove:keypressed(key)
         self.battleMovePlanner.y = self.battlePlayer.y
         self.battlePlayer.x = tmpX
         self.battlePlayer.y = tmpY
+        self.battlePlayer:register()
         Gamestate.switch(StateBattleAction, self.battleMap, self.battlePlayer, self.battleEnemy, self.battleCards, self.battleMovePlanner, self.battleActionPlanner, self.battleModeLabel)
     end
 end

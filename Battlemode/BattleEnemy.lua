@@ -16,8 +16,21 @@ BattleEnemy = Class{
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.draw(self.enemy.image, self.imagePosX, self.map.grid.tileSize, 0, 5)
 		self.health:draw(self.enemy.health)
+	end,
+	drawMove = function (self)
+		local pos = self.map:getPosition(self)
+	    love.graphics.setColor(0, 150, 0)
+	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
+	end,
+	drawResolve = function (self)
 		local pos = self.map:getPosition(self)
 	    love.graphics.setColor(0, 255, 0)
 	    love.graphics.rectangle("fill", pos.x, pos.y, self.map.grid.tileSize, self.map.grid.tileSize)
+	end,
+	resolve = function (self)
+		self.map:register(self, self.x, self.y)
+	end,
+	takeDamage = function (self, damage)
+		self.enemy.health = self.enemy.health - damage
 	end
 }

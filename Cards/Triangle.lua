@@ -80,5 +80,8 @@ Triangle = Class{
 		if (moveY == diffY and moveY ~= 0) then
 			self.y = self.y - moveY * 2
 		end
+	end,
+	resolveDamage = function (self, map)
+		print("DAMAGE TRIANGLE")
 	end
 }
