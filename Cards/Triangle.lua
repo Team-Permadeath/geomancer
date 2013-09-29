@@ -116,8 +116,8 @@ Triangle = Class{
 			--print("UP")
 			effect:setDirection(4.71)
 		end
-		StartEffect(map:getRealX(player.x) + 0.5 * map.grid.tileSize,
-		map:getRealY(player.y) + 0.5 * map.grid.tileSize, 
+		StartEffect(map:getRealX(self.player.x) + 0.5 * map.grid.tileSize,
+		map:getRealY(self.player.y) + 0.5 * map.grid.tileSize, 
 		effect)
 	end
 }
