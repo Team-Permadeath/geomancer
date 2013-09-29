@@ -14,6 +14,7 @@ Circle = Class{
 	    	map:getRealY(self.y) + map.grid.tileSize / 2, 
 	    	map.grid.tileSize * 1.5, 
 	    	100)
+
 	end,
 	relocate = function (self, player, x, y)
 		self.x = player.x
@@ -30,5 +31,9 @@ Circle = Class{
 		map:resolveDamage(self.x + 1, self.y + 1)
 		map:resolveDamage(self.x, self.y + 1)
 		map:resolveDamage(self.x - 1, self.y + 1)
+		StartEffect(
+	    	map:getRealX(self.x) + map.grid.tileSize / 2, 
+	    	map:getRealY(self.y) + map.grid.tileSize / 2, 
+		ParticleSystems["Water"])
 	end
 }

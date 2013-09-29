@@ -33,5 +33,8 @@ Square = Class{
 	end,
 	resolveDamage = function (self, map)
 		map:resolveDamage(self.x, self.y)
+	    StartEffect(map:getRealX(self.x) + 0.5*map.grid.tileSize, 
+	    map:getRealY(self.y) + 0.5 * map.grid.tileSize, 
+	    ParticleSystems["Fire"])
 	end
 }

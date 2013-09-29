@@ -1,6 +1,7 @@
 Gamestate = require "Lib.hump.gamestate"
 math.randomseed( os.time() )
 
+require "Particles"
 require "Sound"
 Sound = SoundSystem()
 require "Player"
@@ -35,6 +36,7 @@ end
 
 function love.update(dt)
 	Sound:update(dt)
+	ParticleUpdate(dt)
 end
 
 function love.keypressed(key, unicode)
@@ -45,3 +47,4 @@ function love.keyreleased(key, unicode)
     	love.event.push("quit")   -- actually causes the app to quit
   	end
 end
+

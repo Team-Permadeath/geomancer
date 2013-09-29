@@ -25,6 +25,7 @@ function StateBattleResolve:draw()
     self.map:drawResolve()
     self.label:draw("Outcome", 150)
     self.helper:drawResolve()
+    ParticleDraw()
 end
 
 function StateBattleResolve:keyreleased(key)

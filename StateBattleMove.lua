@@ -22,6 +22,7 @@ function StateBattleMove:draw()
     self.movePlanner:drawMove()
     self.label:draw("Make a move", 200)
     self.helper:drawMove()
+    ParticleDraw()
 end
 
 function StateBattleMove:keyreleased(key)

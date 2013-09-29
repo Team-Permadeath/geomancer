@@ -6,8 +6,10 @@ Triangle = Class{
 		self.x = 0
 		self.y = 0
 		self.i = 3
+		self.player = nil
 	end,
 	drawAction = function (self, map, player)
+		self.player = player
 		local diffX = self.x - player.x
 		local diffY = self.y - player.y
 		local x1 = map:getRealX(player.x) + map.grid.tileSize / 2
@@ -16,30 +18,35 @@ Triangle = Class{
 		local y2
 		local x3
 		local y3
+		local effect = ParticleSystems["Sand"]
 		if (diffX == 1) then
 			--print("RIGHT")
 			x2 = map:getRealX(player.x + 2)
 			y2 = map:getRealY(player.y - 1)
 			x3 = map:getRealX(player.x + 2)
 			y3 = map:getRealY(player.y + 2)
+			effect:setDirection(0)
 		elseif(diffX == -1) then
 			--print("LEFT")
 			x2 = map:getRealX(player.x - 1)
 			y2 = map:getRealY(player.y - 1)
 			x3 = map:getRealX(player.x - 1)
 			y3 = map:getRealY(player.y + 2)
+			effect:setDirection(3.14)
 		elseif(diffY == 1) then
 			--print("DOWN")
 			x2 = map:getRealX(player.x - 1)
 			y2 = map:getRealY(player.y + 2)
 			x3 = map:getRealX(player.x + 2)
 			y3 = map:getRealY(player.y + 2)
+			effect:setDirection(1.57)
 		elseif(diffY == -1) then
 			--print("UP")
 			x2 = map:getRealX(player.x - 1)
 			y2 = map:getRealY(player.y - 1)
 			x3 = map:getRealX(player.x + 2)
 			y3 = map:getRealY(player.y - 1)
+			effect:setDirection(4.71)
 		end
 	    love.graphics.setColor(200, 200, 0)
 		love.graphics.triangle("line", x1, y1, x2, y2, x3, y3)
@@ -94,5 +101,22 @@ Triangle = Class{
 			map:resolveDamage(self.x, self.y)
 			map:resolveDamage(self.x + 1, self.y)
 		end
+		local effect = ParticleSystems["Sand"]
+		if (diffX == 1) then
+			--print("RIGHT")
+			effect:setDirection(0)
+		elseif(diffX == -1) then
+			--print("LEFT")
+			effect:setDirection(3.14)
+		elseif(diffY == 1) then
+			--print("DOWN")
+			effect:setDirection(1.57)
+		elseif(diffY == -1) then
+			--print("UP")
+			effect:setDirection(4.71)
+		end
+		StartEffect(map:getRealX(player.x) + 0.5 * map.grid.tileSize,
+		map:getRealY(player.y) + 0.5 * map.grid.tileSize, 
+		effect)
 	end
 }

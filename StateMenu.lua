@@ -47,6 +47,8 @@ function StateMenu:draw()
 	--state.button.instructions:draw()
 	--state.button.options:draw()
 	state.button.quit:draw()
+	ParticleDraw()
+
 end
 
 function StateMenu:keyreleased(key, unicode)
