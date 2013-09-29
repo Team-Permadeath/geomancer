@@ -100,9 +100,13 @@ function StateExplore:keyreleased(key, unicode)
   	if key == "right" then
     	movePlayer(1, 0)
   	end
+    if key == "i" then
+      Gamestate.switch(StateInventory)
+    end
   	-- if key == "b" then
   	-- 	Gamestate.switch(StateBattle, 22)
   	-- end
+
 end
 
 function movePlayer(dx, dy)

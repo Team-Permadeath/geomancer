@@ -2,6 +2,7 @@
 StateInventory = {}
 function StateInventory:init()
 --self.invCardsS=
+nutImg = love.graphics.newImage("Tiles/decorative/nut-10.png")
 
 end
 
@@ -11,47 +12,23 @@ function StateInventory:enter()
 end
 
 function StateInventory:create()
+	 
+--making cards
 	 invCards=player:getCards()
 	local temp = {}
 	setmetatable(temp, StateInventory)
 	temp.button = {	testButton = Button.create("Exit", 100,100)--,
-					--test2 = Button.create("Remove", 500,500) 
 				}
-	--test3 = Button.create("Remove", 500,600)
-	--table.insert(temp.button,test3)
-
-	--print("DERP2")
+	---making buttons
 	u=0
 	for i, v in ipairs(invCards) do
 		local tempp = {}
-		--setmetatable(tempp, StateInventory)
      	tempp = Button.create("Rmv",350+ 110*((i-1)%7), 275+(u*200), i)
      	table.insert(temp.button, tempp)
-     	--love.graphics.draw(v.image, 300+ 110*(i%7), 300+(u*200))
-     	--print("DERP")
      	if i%7==0 then u=u+1 end
     end	
-
-
-
-
-		--temp.button
 	return temp
 end
-
-
-function StateInventory:addButton(posx, posy)
-	local temp = {}
-	setmetatable(temp, StateInventory)
-	--temp.button = {	
-	tempButton = Button.create("Remove", posx,posy) 
-	--}	
-	return tempButton
-end
-
-
-	--init stuff for buttons
-
 function StateInventory.update(dt)
 		
 	for n,b in pairs(invButtons.button) do
@@ -61,14 +38,17 @@ end
 
 
 function StateInventory:draw()
-		--nrinvCards=ifiWorld:getPlayerAmountinvCards()
+
+--draw nuts
+ for i = player:getCollectedNuts(), 1, -1 do
+    love.graphics.draw(nutImg, love.graphics.getWidth() - i * 10 - TILE_SIZE, 10)
+  end
+
 		--draw buttons
 		for n,b in pairs(invButtons.button) do
 		b:draw()
 		end
 		love.graphics.setColor(255, 255, 255)
-
-
 
 		--draw invCards
 		invCards=player:getCards()
@@ -79,42 +59,32 @@ function StateInventory:draw()
      			if i%7==0 then u=u+1 end
 
     	end
-		--for n,b in invCards do
-		--	print(n)
-		--end
-
-	--for n,b in invCards do
-	--
-	--end
-	
 end
+
 
 function StateInventory:keyreleased(key, unicode)
     if key == "return" then
-	--Sound:playmusic(MusicTypes.Exploration)
         Gamestate.switch(StateExplore)
 	end
+	if key == "i" then
+      Gamestate.switch(StateExplore)
+    end
 end
+
 
 function StateInventory:mousepressed(x,y,button)
 	
-	for n,b in pairs(invButtons.button) do
-		if b:mousepressed(x,y,button) then
-				if b.text == "Rmv" then
-				--print(" ->")--love.event.push("quit")
-					print(" ->" , b.cardIndex)--love.event.push("quit")
-					--if invCards.size()>
+for n,b in pairs(invButtons.button) do
+	if b:mousepressed(x,y,button) then
+			if b.text == "Rmv" then
+				--print(" ->" , b.cardIndex)
 					player:rmvCard(b.cardIndex)
-
 					Gamestate.switch(StateInventory)
 				end
 
 			if b.text == "Exit" then
-					--love.event.push("quit")
-					--print(" <->") --love.event.push("quit")
 					Gamestate.switch(StateExplore)
-					 end
-			
+				 end			
 		end
 	end
 	

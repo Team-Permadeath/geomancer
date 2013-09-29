@@ -22,7 +22,6 @@ function Button.create(text,x,y,ww)
 	temp.x = x - (temp.width / 2)
 	temp.y = y
 	temp.cardIndex = ww
-	print("in card cnstruct", ww)
 	return temp
 	
 end
